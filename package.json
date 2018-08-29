@@ -1,0 +1,27 @@
+{
+  "name": "theunfiltedbubble",
+  "version": "1.0.0",
+  "description": "'news scraper that attempts to unfilter news content'",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Rye-Guy/theUnfiltedBubble.git"
+  },
+  "author": "Ryan Racioppo",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Rye-Guy/theUnfiltedBubble/issues"
+  },
+  "homepage": "https://github.com/Rye-Guy/theUnfiltedBubble#readme",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "cheerio": "^1.0.0-rc.2",
+    "express": "^4.16.3",
+    "mongoose": "^5.2.10",
+    "phantom": "^6.0.3",
+    "request": "^2.88.0"
+  }
+}
