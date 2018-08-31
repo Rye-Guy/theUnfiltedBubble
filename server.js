@@ -13,31 +13,48 @@ app.use(bodyParser.urlencoded({extended: false}));
 
 
 //    //Associated Press Link 
-//     request("https://www.apnews.com", (err, response, html) => {
+
+// var options = {
+//     url: 'https://www.apnews.com/tag/apf-topnews',
+//     headers: {
+//       'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 8_0 like Mac OS X) AppleWebKit/600.1.3 (KHTML, like Gecko) Version/8.0 Mobile/12A4345d Safari/600.1.4'
+//     }
+//   };
+
+//     request(options, (err, response, html) => {
 //             const $ = cheerio.load(html);
-//             console.log(html);
-//             $(".contentTitle .ng-binding .ng-scope").each((i, element) =>{
+//             console.log(html, response);
+//             $("p").each((i, element) =>{
 //                     console.log(element);
-//             })
+//             });
 //     });
 
 
-// (async function() {
-//     const instance = await phantom.create();
-//     const page = await instance.createPage();
-//     await page.on('onResourceRequested', function(requestData) {
-//       console.info('Requesting', requestData.url);
-//     });
+(async function() {
+    const instance = await phantom.create();
+    const page = await instance.createPage();
+    await page.on('onResourceRequested', function(requestData) {
+    //   console.info('Requesting', requestData.url);
+    });
    
-//     const status = await page.open('https://www.apnews.com/tag/apf-topnews');
+    const status = await page.open('https://www.apnews.com/tag/apf-topnews');
     
-//     const content = await page.property('content');
-//     // console.log(content);
+    const content = await page.property('content');
+    // console.log(content);
     
-//     const $  = cheerio.load(content);
+    const $  = cheerio.load(content);
+    
+        $('.contentArticle').each(function(i, element){
+            // console.l3og(element);
+            title = $(this).children('.contentTitle').text();
+            titleText = $(this).children(".firstWords").text();
+            articleLink = $(this).attr("href").val();
+            console.log(title);
+            console.log(titleText);
+        });
    
-//     await instance.exit();
-//   })();
+    await instance.exit();
+  })();
 
 
 
