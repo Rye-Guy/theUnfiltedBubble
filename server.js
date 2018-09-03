@@ -30,7 +30,7 @@ app.use(bodyParser.urlencoded({extended: false}));
 
         $('.contentArticle').each((i, element) =>{
             // console.l3og(element);
-            title = $(this).children('.contentTitle').text();
+            title = $(this).children('.contentTitle');
             // titleText = $(this).children(".firstWords").text();
             // articleLink = $(this).attr("href").val();
             console.log(title);
@@ -46,6 +46,8 @@ app.use(bodyParser.urlencoded({extended: false}));
 
     await instance.exit();
   })();
+
+  
 
 
 
