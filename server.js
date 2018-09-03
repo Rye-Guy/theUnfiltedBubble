@@ -12,11 +12,12 @@ const app = express();
 app.use(bodyParser.urlencoded({extended: false}));
 
 
+
 (async function() {
-    
+
     const instance = await phantom.create();
     const page = await instance.createPage()
-    //on function you can listen to the events that the page emits. 
+
     await page.on('onResourceRequested', function(requestData) {
     //   console.info('Requesting', requestData.url);
     });
@@ -33,7 +34,7 @@ app.use(bodyParser.urlencoded({extended: false}));
             title = $(this).children('.contentTitle');
             // titleText = $(this).children(".firstWords").text();
             // articleLink = $(this).attr("href").val();
-            console.log(title);
+            // console.log(title);
             // console.log(titleText);
             // console.log(articleLink);
         });
@@ -45,6 +46,24 @@ app.use(bodyParser.urlencoded({extended: false}));
         // });
 
     await instance.exit();
+  })();
+
+  (async function(){
+    const instance = await phantom.create();
+    const page = await instance.createPage()
+    await page.on('onResourceRequested', function(requestData){
+
+    });
+    const status = await page.open('https://www.aljazeera.com/news/');
+    const content = await page.property('content');
+    const $  = cheerio.load(content);
+    console.log(content);
+        
+        $('.topics-sec-item-label').each((i, element) =>{
+            console.log(element);
+            // console.log(title);
+        });
+
   })();
 
   
