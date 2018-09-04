@@ -1,0 +1,22 @@
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
+
+const ArticleSchema = new Schema({
+    articleTitle: {
+        type: String,
+        unique: true
+    },
+    articleDescription: {
+        type: String, 
+        unique: true
+    },
+    sourcePublication:{
+        type: String
+    },
+},{
+    versionKey: false
+});
+
+var Articles = mongoose.model('Articles', ArticleSchema);
+
+module.exports = Articles;
