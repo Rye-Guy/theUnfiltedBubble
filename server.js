@@ -10,82 +10,77 @@ const Twitter = require('twitter');
 const app = express();
 
 
-app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.urlencoded({
+    extended: false
+}));
 
 var client = new Twitter({
     consumer_key: 'w2cIY20hmxjUBidNykzROyb3I',
-    consumer_secret: '76YKgR71K0AzJpGoQo8DM2zLJfi2WvnjZGuqBNgD8GH4fvFAk4'
+    consumer_secret: '76YKgR71K0AzJpGoQo8DM2zLJfi2WvnjZGuqBNgD8GH4fvFAk4',
+    access_token_key: '1007388564500434944-k7jxNM1OSzSvtOBT2FpA9ONwRDZh8N',
+    access_token_secret: '2GjUQiVkK0Ha0OY1j6jyzLR5Zl85Fyw8JFImeUkbs8hpq'
 });
 
-// (async function() {
+(async function () {
+    const instance = await phantom.create();
+    const page = await instance.createPage();
+    await page.on('onResourceRequested', function (requestData) {
+        //   console.info('Requesting', requestData.url);
+    });
 
-//     const instance = await phantom.create();
-//     const page = await instance.createPage()
+    //     const status = await page.open('https://www.apnews.com/tag/apf-topnews');
+    const status = await page.open('https://www.apnews.com/tag/apf-topnews');
 
-//     await page.on('onResourceRequested', function(requestData) {
-//     //   console.info('Requesting', requestData.url);
-//     });
-   
-//     const status = await page.open('https://www.apnews.com/tag/apf-topnews');
-    
-//     const content = await page.property('content');
-//     // console.log(content);
-    
-//     const $  = cheerio.load(content);
+    const content = await page.property('content');
+    // console.log(content);
 
-//         $('.contentArticle').each((i, element) =>{
-//             // console.l3og(element);
-//             title = $(this).children('.contentTitle');
-//             // titleText = $(this).children(".firstWords").text();
-//             // articleLink = $(this).attr("href").val();
-//             // console.log(title);
-//             // console.log(titleText);
-//             // console.log(articleLink);
-//         });
+    //     const content = await page.property('content');
+    //     // console.log(content);
+    const $ = cheerio.load(content);
 
-//         // $('.cardContainer').each((i, element) =>{
-//         //     title = $(this).children('.ng-scope').children('contentContainer').children('.articleWithoutPicture').children('contentArticle').children('.contentTitle').text();
-            
-//         //     console.log(title);
-//         // });
+    //     const $  = cheerio.load(content);
+    $('.contentArticle').each(function (i, element) {
+        // console.l3og(element);
+        title = $(this).children('.contentTitle').text();
+        titleText = $(this).children(".firstWords").text();
+        articleUrl = $(this).attr("href");
+        console.log(title);
+        console.log(titleText);
+        console.log("https://www.apnews.com/" + articleUrl);
+    });
+    await instance.exit();
+})();
 
-//     await instance.exit();
-//   })();
+  (async function(){
+    const instance = await phantom.create();
+    const page = await instance.createPage()
+    await page.on('onResourceRequested', function(requestData){
 
-//   (async function(){
-//     const instance = await phantom.create();
-//     const page = await instance.createPage()
-//     await page.on('onResourceRequested', function(requestData){
+    });
+    const status = await page.open('https://www.aljazeera.com/news/');
+    const content = await page.property('content');
+    const $  = cheerio.load(content);
 
-//     });
-//     const status = await page.open('https://www.aljazeera.com/news/');
-//     const content = await page.property('content');
-//     const $  = cheerio.load(content);
-        
-//         $('.topics-sec-item-cont').each((i, element) =>{
-//             link = $(this).children('a').attr('href');
-//             title = $(this).children('a').children('.topics-sec-item-head').text();
-//             console.log(link);
-//             console.log(title);
-//         });
+        $('.top-sec-title').each((i, element) =>{
+            title = $(this).text();
+            console.log(title);
+        });
 
-//   })();
+  })();
 
-let params = {screen_name: 'nodejs'};
-client.get('statuses/user_timeline', params, function(error, tweets, response) {
-  if (!error) {
-    console.log(tweets);
-  }
+
+client.get('statuses/user_timeline', {
+    screen_name: 'nationalpost'
+}, function (err, tweets, response) {
+    if (err) console.log(err);
+    // console.log(tweets.text);
+    tweets.forEach(element => {
+        console.log(element.text);
+    });
+    // console.log(response);
 });
-
-client.get('favorites/list', function(error, tweets, response) {
-    if(error) console.log(error);
-    console.log(tweets);  // The favorites.
-    console.log(response);  // Raw response object.
-  });
 
 
 app.listen(process.env.PORT | 8888, () => {
     console.log("Server is running!");
-}); 
-
+});
