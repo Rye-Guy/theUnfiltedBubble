@@ -51,21 +51,21 @@ var client = new Twitter({
     await instance.exit();
 })();
 
-  (async function(){
-    const instance = await phantom.create();
-    const page = await instance.createPage()
-    await page.on('onResourceRequested', function(requestData){
+//   (async function(){
+//     const instance = await phantom.create();
+//     const page = await instance.createPage()
+//     await page.on('onResourceRequested', function(requestData){
 
-    });
-    const status = await page.open('https://www.aljazeera.com/news/');
-    const content = await page.property('content');
-    const $  = cheerio.load(content);
+//     });
+//     const status = await page.open('https://www.aljazeera.com/news/');
+//     const content = await page.property('content');
+//     const $  = cheerio.load(content);
 
-        $('.top-sec-title').each((i, element) =>{
-            title = $(this).text();
-            console.log(title);
-        });
-  })();
+//         $('.top-sec-title').each((i, element) =>{
+//             title = $(this).text();
+//             console.log(title);
+//         });
+//   })();
 
 
 client.get('statuses/user_timeline', {
@@ -74,11 +74,11 @@ client.get('statuses/user_timeline', {
     if (err) console.log(err);
 
     tweets.forEach(element => {
-        console.log(element.user.name);
-        console.log(element.text);
-        console.log(element.entities.urls[0].expanded_url);
+        publicationName = element.user.name;
+        articleDescription = element.text;
+        articleUrl = element.entities.urls[0].expanded_url;
     });
-    // console.log(response);
+    console.log(tweets[0]);
 });
 
 
