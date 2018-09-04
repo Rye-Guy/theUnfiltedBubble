@@ -65,7 +65,6 @@ var client = new Twitter({
             title = $(this).text();
             console.log(title);
         });
-
   })();
 
 
@@ -73,9 +72,11 @@ client.get('statuses/user_timeline', {
     screen_name: 'nationalpost'
 }, function (err, tweets, response) {
     if (err) console.log(err);
-    // console.log(tweets.text);
+
     tweets.forEach(element => {
+        console.log(element.user.name);
         console.log(element.text);
+        console.log(element.entities.urls[0].expanded_url);
     });
     // console.log(response);
 });
