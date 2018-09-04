@@ -40,13 +40,17 @@ var client = new Twitter({
 
     //     const $  = cheerio.load(content);
     $('.contentArticle').each(function (i, element) {
+        let articleEntry = {};
         // console.l3og(element);
-        title = $(this).children('.contentTitle').text();
-        titleText = $(this).children(".firstWords").text();
+        articleEntry.title = $(this).children('.contentTitle').text();
+        articleEntry.description = $(this).children(".firstWords").text();
         articleUrl = $(this).attr("href");
-        console.log(title);
-        console.log(titleText);
-        console.log("https://www.apnews.com/" + articleUrl);
+        articleEntry.url = "https://www.apnews.com/" + articleUrl;
+        // console.log(title);
+        // console.log(titleText);
+        // console.log("https://www.apnews.com/" + articleUrl);
+        console.log(articleEntry);
+        
     });
     await instance.exit();
 })();
@@ -74,9 +78,11 @@ client.get('statuses/user_timeline', {
     if (err) console.log(err);
 
     tweets.forEach(element => {
-        publicationName = element.user.name;
-        articleDescription = element.text;
-        articleUrl = element.entities.urls[0].expanded_url;
+        let articleEntry = {};
+        articleEntry.publicationName = element.user.name;
+        articleEntry.articleDescription = element.text;
+        articleEntry.url = element.entities.urls[0].expanded_url;
+        console.log(articleEntry);
     });
     console.log(tweets[0]);
 });
