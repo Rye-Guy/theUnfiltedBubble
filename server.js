@@ -49,27 +49,27 @@ var client = new Twitter({
         // console.log(title);
         // console.log(titleText);
         // console.log("https://www.apnews.com/" + articleUrl);
-        console.log(articleEntry);
+        // console.log(articleEntry);
         
     });
     await instance.exit();
 })();
 
-//   (async function(){
-//     const instance = await phantom.create();
-//     const page = await instance.createPage()
-//     await page.on('onResourceRequested', function(requestData){
+  (async function(){
+    const instance = await phantom.create();
+    const page = await instance.createPage()
+    await page.on('onResourceRequested', function(requestData){
 
-//     });
-//     const status = await page.open('https://www.aljazeera.com/news/');
-//     const content = await page.property('content');
-//     const $  = cheerio.load(content);
+    });
+    const status = await page.open('https://www.aljazeera.com/news/');
+    const content = await page.property('content');
+    const $  = cheerio.load(content);
 
-//         $('.top-sec-title').each((i, element) =>{
-//             title = $(this).text();
-//             console.log(title);
-//         });
-//   })();
+        // $('.top-sec-title').each((i, element) =>{
+        //     title = $(this).text();
+        //     console.log(title);
+        // });
+  })();
 
 
 client.get('statuses/user_timeline', {
@@ -81,10 +81,13 @@ client.get('statuses/user_timeline', {
         let articleEntry = {};
         articleEntry.publicationName = element.user.name;
         articleEntry.articleDescription = element.text;
-        articleEntry.url = element.entities.urls[0].expanded_url;
+        if(element.entities.urls[0] == undefined){
+            articleEntry.url = "https://twitter.com/nationalpost";
+        }else{
+            articleEntry.url = element.entities.urls[0].expanded_url;
+        }
         console.log(articleEntry);
     });
-    console.log(tweets[0]);
 });
 
 
