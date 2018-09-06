@@ -5,6 +5,7 @@ const request = require('request');
 const cheerio = require('cheerio');
 const phantom = require('phantom');
 const Twitter = require('twitter');
+const session = require('express-session');
 const exphbs = require("express-handlebars");
 const routes = require('./controllers/router');
 const MongoStore = require('connect-mongo')(session);
@@ -15,6 +16,15 @@ app.set('view engine', 'handlebars');
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(express.static('public'));
 app.use('/', routes);
+
+
+mongoose.connect('mongodb://localhost/theUnfilteredDB');
+const db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error'));
+db.once('open', () =>{
+    console.log('db connected');
+});
+
 app.use(session({
     secret: 's9Kwp09n3zcM',
     resave: true,
@@ -23,15 +33,6 @@ app.use(session({
         mongooseConnection: db
     })
 }));
-
-mongoose.connect('mongodb://localhost/');
-const db = mongoose.connection;
-db.on('error', console.log('connection error'));
-db.once('open', () =>{
-    console.log('db connected');
-});
-
-
 
 const client = new Twitter({
     consumer_key: 'w2cIY20hmxjUBidNykzROyb3I',
