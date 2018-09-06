@@ -15,7 +15,6 @@ const UserSchema = new mongoose.Schema({
     versionKey: false
 });
 
-
 UserSchema.pre('save', function (next){
     let user = this;
     bcrypt.hash(user.password, 10, function(err, hash){
@@ -27,6 +26,23 @@ UserSchema.pre('save', function (next){
         console.log(hash);
     });
 });
+
+UserSchema.statics.authenticate = function(username, password, callback){
+    User.findOne({username: username}).exec(function(err, user){
+        if(err){
+            callback(err);
+        }else if(!user){
+            let err = new Error('User not found.');
+            err.status = 401
+            return callback(err);
+        }
+        bcrypt.compare(password, user.password, function(err, result){
+            if(result === true){
+                return callback(null, user);
+            }
+        });
+    });
+}
 
 const User = mongoose.model('User', UserSchema);
 module.exports = User;
