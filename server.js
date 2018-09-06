@@ -64,13 +64,14 @@ var client = new Twitter({
     const status = await page.open('https://www.atimes.com/');
     const content = await page.property('content');
     const $  = cheerio.load(content);
-    // console.log(content);
+    console.log(content);
 
         $('.headline').each((i, element) =>{
             let articleEntry = {};
-            articleEntry.title = $(this).text();
+            articleEntry.title = $(this).children("a").text();
             console.log(articleEntry);
         });
+    await instance.exit();
   })();
 
 
