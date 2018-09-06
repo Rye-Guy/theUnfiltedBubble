@@ -5,23 +5,25 @@ const request = require('request');
 const cheerio = require('cheerio');
 const phantom = require('phantom');
 const Twitter = require('twitter');
-
+const bcrypt = require('bcrypt');
+const exphbs = require("express-handlebars");
+const routes = require('./controllers/router');
 
 const app = express();
+app.engine('handlebars', exphbs({defaultLayout: "main"}));
+app.set('view engine', 'handlebars');
+app.use(bodyParser.urlencoded({extended: false}));
+app.use('/', routes);
 
 
-app.use(bodyParser.urlencoded({
-    extended: false
-}));
-
-var client = new Twitter({
+const client = new Twitter({
     consumer_key: 'w2cIY20hmxjUBidNykzROyb3I',
     consumer_secret: '76YKgR71K0AzJpGoQo8DM2zLJfi2WvnjZGuqBNgD8GH4fvFAk4',
     access_token_key: '1007388564500434944-k7jxNM1OSzSvtOBT2FpA9ONwRDZh8N',
     access_token_secret: '2GjUQiVkK0Ha0OY1j6jyzLR5Zl85Fyw8JFImeUkbs8hpq'
 });
 
-(async function () {
+(async function(){
     const instance = await phantom.create();
     const page = await instance.createPage();
     await page.on('onResourceRequested', function (requestData) {
@@ -55,7 +57,7 @@ var client = new Twitter({
     await instance.exit();
 })();
 
-  (async function(){
+  (async function() {
     const instance = await phantom.create();
     const page = await instance.createPage()
     await page.on('onResourceRequested', function(requestData){
@@ -64,7 +66,7 @@ var client = new Twitter({
     const status = await page.open('https://www.atimes.com/');
     const content = await page.property('content');
     const $  = cheerio.load(content);
-    console.log(content);
+    // console.log(content);
 
         $('.headline').each((i, element) =>{
             let articleEntry = {};
