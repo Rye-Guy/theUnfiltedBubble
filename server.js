@@ -5,15 +5,32 @@ const request = require('request');
 const cheerio = require('cheerio');
 const phantom = require('phantom');
 const Twitter = require('twitter');
-const bcrypt = require('bcrypt');
 const exphbs = require("express-handlebars");
 const routes = require('./controllers/router');
+const MongoStore = require('connect-mongo')(session);
 
 const app = express();
 app.engine('handlebars', exphbs({defaultLayout: "main"}));
 app.set('view engine', 'handlebars');
 app.use(bodyParser.urlencoded({extended: false}));
+app.use(express.static('public'));
 app.use('/', routes);
+app.use(session({
+    secret: 's9Kwp09n3zcM',
+    resave: true,
+    saveUninitialized: false,
+    store: new MongoStore({
+        mongooseConnection: db
+    })
+}));
+
+mongoose.connect('mongodb://localhost/');
+const db = mongoose.connection;
+db.on('error', console.log('connection error'));
+db.once('open', () =>{
+    console.log('db connected');
+});
+
 
 
 const client = new Twitter({
