@@ -114,6 +114,6 @@ client.get('statuses/user_timeline', {
 });
 
 
-app.listen(process.env.PORT | 8888, () => {
+app.listen(process.env.PORT | 8889, () => {
     console.log("Server is running!");
 });
