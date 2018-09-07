@@ -43,50 +43,32 @@ const client = new Twitter({
 (async function(){
     const instance = await phantom.create();
     const page = await instance.createPage();
-    await page.on('onResourceRequested', function (requestData) {
-        //   console.info('Requesting', requestData.url);
-    });
-
-    //     const status = await page.open('https://www.apnews.com/tag/apf-topnews');
+    await page.on('onResourceRequested', function (requestData) {});
     const status = await page.open('https://www.apnews.com/tag/apf-topnews');
-
     const content = await page.property('content');
-    // console.log(content);
-
-    //     const content = await page.property('content');
-    //     // console.log(content);
     const $ = cheerio.load(content);
-
-    //     const $  = cheerio.load(content);
     $('.contentArticle').each(function (i, element) {
         let articleEntry = {};
-        // console.l3og(element);
-        articleEntry.title = $(this).children('.contentTitle').text();
+        articleEntry.articleTitle = $(this).children('.contentTitle').text();
         articleEntry.description = $(this).children(".firstWords").text();
-        articleUrl = $(this).attr("href");
-        articleEntry.url = "https://www.apnews.com/" + articleUrl;
-        // console.log(title);
-        // console.log(titleText);
-        // console.log("https://www.apnews.com/" + articleUrl);
-        // console.log(articleEntry);
-        
+        articleUrlHalf = $(this).attr("href");
+        articleEntry.articleUrl = "https://www.apnews.com/" + articleUrlHalf;
+        articleEntry.sourcePublication = 'The Associated Press';
     });
     await instance.exit();
 })();
 
-  (async function() {
+(async function() {
     const instance = await phantom.create();
     const page = await instance.createPage()
-    await page.on('onResourceRequested', function(requestData){
-
-    });
+    await page.on('onResourceRequested', function(requestData){});
     const status = await page.open('https://www.atimes.com/');
     const content = await page.property('content');
     const $  = cheerio.load(content);
-
     $('.headline').each(function (i, element){
         let articleEntry = {};
-        articleEntry.title = $(this).children("a").text();
+        articleEntry.articleTitle = $(this).children("a").text();
+        articleEntry.articleUrl = $(this).children('a').attr('href'); 
         console.log(articleEntry);
     });
     await instance.exit();

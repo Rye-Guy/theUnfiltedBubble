@@ -10,6 +10,10 @@ const ArticleSchema = new Schema({
         type: String, 
         unique: true
     },
+    articleUrl:{
+        type: String,
+        unique: true
+    },
     sourcePublication:{
         type: String
     },
