@@ -54,12 +54,18 @@ router.get('/home', middleware.requiresLogin, function(req, res){
         return res.render('home');
 });
 
-router.get('/error', function(req, res){
-    res.render('error');
+router.get('/logout', middleware.requiresLogin, function(req, res, next){
+    req.session.destroy(function(err){
+        if(err){
+            next(err);
+        }else{
+            return res.redirect('/');
+        }
+    });
 });
 
-router.get('/logout', middleware.requiresLogin, function(req, res, next){
-
+router.get('/error', function(req, res){
+    res.render('error');
 });
 
 
