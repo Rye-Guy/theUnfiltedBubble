@@ -5,11 +5,15 @@ const database = require('../Models/index');
 
 router.get('/', (req, res, next) =>{
     res.render('login')
-    console.log(req.body);
 });
 
 router.post('/', (req, res, next) =>{
-    if(req.body.username && req.body.password){
+    
+    if(req.body.password !== req.body.confirmPassword){
+        let err = new Error('Passwords do not match!');
+        err.status = 400; 
+        res.redirect('/error');
+    }else if(req.body.username && req.body.password){
          
              let userData = {
                 username: req.body.username, 
@@ -50,6 +54,10 @@ router.get('/home', function(req, res){
             }
         }
     });
+});
+
+router.get('/error', function(req, res){
+    res.render('error');
 });
 
 
