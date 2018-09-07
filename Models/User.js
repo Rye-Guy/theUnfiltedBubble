@@ -40,6 +40,9 @@ UserSchema.statics.authenticate = function(username, password, callback){
             if(result === true){
                 return callback(null, user);
             }
+            else{
+                 return callback();
+            }
         });
     });
 }

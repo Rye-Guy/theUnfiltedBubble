@@ -9,13 +9,14 @@ const session = require('express-session');
 const exphbs = require("express-handlebars");
 const routes = require('./controllers/router');
 const MongoStore = require('connect-mongo')(session);
-
 const app = express();
+
 app.engine('handlebars', exphbs({defaultLayout: "main"}));
 app.set('view engine', 'handlebars');
 app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.json());
 app.use(express.static('public'));
-app.use('/', routes);
+
 
 
 mongoose.connect('mongodb://localhost/theUnfilteredDB');
@@ -84,13 +85,12 @@ const client = new Twitter({
     const status = await page.open('https://www.atimes.com/');
     const content = await page.property('content');
     const $  = cheerio.load(content);
-    // console.log(content);
 
-        $('.headline').each((i, element) =>{
-            let articleEntry = {};
-            articleEntry.title = $(this).children("a").text();
-            console.log(articleEntry);
-        });
+    $('.headline').each(function (i, element){
+        let articleEntry = {};
+        articleEntry.title = $(this).children("a").text();
+        console.log(articleEntry);
+    });
     await instance.exit();
   })();
 
@@ -113,7 +113,7 @@ client.get('statuses/user_timeline', {
     });
 });
 
-
+app.use('/', routes);
 app.listen(process.env.PORT | 8889, () => {
     console.log("Server is running!");
 });
