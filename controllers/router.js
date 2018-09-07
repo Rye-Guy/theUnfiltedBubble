@@ -1,6 +1,19 @@
 const express = require('express');
 const router = express.Router();
 const database = require('../Models/index');
+const middleware = {
+    requiresLogin: function requiresLogin(req, res, next){
+        if(req.session && req.session.userId){
+            console.log('Middleware doing its stuff :D');
+            return next();
+        }else{
+            let err = new Error('You must be logged in to view this page.');
+            err.status = 401;
+            res.redirect('/error');
+            return next(err);
+        }
+    }
+}
 
 
 router.get('/', (req, res, next) =>{
@@ -37,28 +50,19 @@ router.post('/', (req, res, next) =>{
     }
 });
 
-router.get('/home', function(req, res){
-    database.User.findById(req.session.userId)
-    .exec((err, user)=>{
-        if(err){
-            console.log(err);
-        }else{
-            if(user === null){
-                let err = new Error('Not authorized to view this page!');
-                err.status = 400;
-                return console.log(err);
-            }
-            else{
-                console.log(user);
-                return res.render('home');
-            }
-        }
-    });
+router.get('/home', middleware.requiresLogin, function(req, res){
+        return res.render('home');
 });
 
 router.get('/error', function(req, res){
     res.render('error');
 });
+
+router.get('/logout', middleware.requiresLogin, function(req, res, next){
+
+});
+
+
 
 
 

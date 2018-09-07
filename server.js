@@ -17,8 +17,6 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 app.use(express.static('public'));
 
-
-
 mongoose.connect('mongodb://localhost/theUnfilteredDB');
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error'));
