@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const database = require('../Models/index');
+
+
 const middleware = {
     requiresLogin: function requiresLogin(req, res, next){
         if(req.session && req.session.userId){
@@ -80,9 +82,5 @@ router.get('/logout', middleware.requiresLogin, function(req, res, next){
 router.get('/error', function(req, res){
     res.render('error');
 });
-
-
-
-
 
 module.exports = router;
