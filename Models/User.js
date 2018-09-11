@@ -28,9 +28,10 @@ UserSchema.pre('save', function (next){
 });
 
 UserSchema.statics.authenticate = function(username, password, callback){
-    User.findOne({username: username}).exec(function(err, user){
+    User.findOne({username: username})
+    .exec(function(err, user){
         if(err){
-            callback(err);
+            return callback(err)
         }else if(!user){
             let err = new Error('User not found.');
             err.status = 401
@@ -39,12 +40,11 @@ UserSchema.statics.authenticate = function(username, password, callback){
         bcrypt.compare(password, user.password, function(err, result){
             if(result === true){
                 return callback(null, user);
-            }
-            else{
-                 return callback();
+            }else{
+                return callback();
             }
         });
-    });
+    })
 }
 
 const User = mongoose.model('User', UserSchema);

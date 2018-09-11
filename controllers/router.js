@@ -21,12 +21,14 @@ router.get('/', (req, res, next) =>{
 });
 
 router.post('/', (req, res, next) =>{
-    
+        console.log(req.body);
     if(req.body.password !== req.body.confirmPassword){
         let err = new Error('Passwords do not match!');
         err.status = 400; 
         res.redirect('/error');
-    }else if(req.body.username && req.body.password){
+    }
+    
+    if(req.body.username && req.body.password){
          
              let userData = {
                 username: req.body.username, 
@@ -43,6 +45,17 @@ router.post('/', (req, res, next) =>{
                      return res.redirect('/home');
                  }
              });
+    }else if(req.body.logusername && req.body.logpassword){
+        database.User.authenticate(req.body.logusername, req.body.logpassword, (error, user)=>{
+            if(error || !user){
+                console.log(error);
+                res.redirect('/error');
+            }else{
+                req.session.userId = user._id;
+                console.log(user);
+                return res.redirect('/home');
+            }
+        });
     }else{
         let err = new Error('All Fields Required');
         err.status = 400;
