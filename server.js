@@ -54,6 +54,7 @@ const client = new Twitter({
         articleUrlHalf = $(this).attr("href");
         articleEntry.articleUrl = "https://www.apnews.com/" + articleUrlHalf;
         articleEntry.sourcePublication = 'The Associated Press';
+        console.log(articleEntry);
     });
     await instance.exit();
 })();
@@ -65,33 +66,35 @@ const client = new Twitter({
     const status = await page.open('https://www.atimes.com/');
     const content = await page.property('content');
     const $  = cheerio.load(content);
-    $('.headline').each(function (i, element){
+    $('.item-content').each(function (i, element){
         let articleEntry = {};
-        articleEntry.articleTitle = $(this).children("a").text();
-        articleEntry.articleUrl = $(this).children('a').attr('href'); 
-        console.log(articleEntry);
+        articleEntry.articleTitle = $(this).children('.headline').children("a").text();
+        articleEntry.articleUrl = $(this).children('.headline').children('a').attr('href'); 
+        articleEntry.articleDescription = $(this).children('.underline').children('a').text();
+        articleEntry.sourcePublication = 'Asia Times';
     });
     await instance.exit();
   })();
 
 
-client.get('statuses/user_timeline', {
-    screen_name: 'nationalpost'
-}, function (err, tweets, response) {
-    if (err) console.log(err);
+// client.get('statuses/user_timeline', {
+//     screen_name: 'nationalpost'
+// }, function (err, tweets, response) {
+//     if (err) console.log(err);
 
-    tweets.forEach(element => {
-        let articleEntry = {};
-        articleEntry.publicationName = element.user.name;
-        articleEntry.articleDescription = element.text;
-        if(element.entities.urls[0] == undefined){
-            articleEntry.url = "https://twitter.com/nationalpost";
-        }else{
-            articleEntry.url = element.entities.urls[0].expanded_url;
-        }
-        // console.log(articleEntry);
-    });
-});
+//     tweets.forEach(element => {
+//         let articleEntry = {};
+//         console.log(element);
+//         articleEntry.publicationName = element.user.name;
+//         articleEntry.articleDescription = element.text;
+//         if(element.entities.urls[0] == undefined){
+//             articleEntry.url = "https://twitter.com/nationalpost";
+//         }else{
+//             articleEntry.url = element.entities.urls[0].expanded_url;
+//         }
+//         console.log(articleEntry);
+//     });
+// });
 
 app.use('/', routes);
 app.listen(process.env.PORT | 8889, () => {

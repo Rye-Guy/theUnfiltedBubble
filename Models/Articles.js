@@ -4,14 +4,19 @@ const Schema = mongoose.Schema;
 const ArticleSchema = new Schema({
     articleTitle: {
         type: String,
-        unique: true
+        minlength: 1,
+        unique: true,
+        required: true
+        
     },
     articleDescription: {
-        type: String, 
+        type: String,
+        minlength: 1, 
         unique: true
     },
     articleUrl:{
         type: String,
+        required: true,
         unique: true
     },
     sourcePublication:{
