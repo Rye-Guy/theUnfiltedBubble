@@ -76,6 +76,24 @@ const client = new Twitter({
     await instance.exit();
   })();
 
+  (async function() {
+    const instance = await phantom.create();
+    const page = await instance.createPage()
+    await page.on('onResourceRequested', function(requestData){});
+    const status = await page.open('https://www.mintpressnews.com/category/highlights/');
+    const content = await page.property('content');
+    const $  = cheerio.load(content);
+    $('.post').each(function (i, element){
+        let articleEntry = {}
+        articleEntry.articleTitle = $(this).children('.entry-title').children('a').text();
+        articleEntry.articleUrl = $(this).children('.entry-title').children('a').attr('href');
+        articleEntry.articleDescription = $(this).children('.single-excerpt').children('p').text();
+        articleEntry.sourcePublication = 'MintPress News';
+        console.log(articleEntry);
+    });
+    await instance.exit();
+  })();
+
 
 // client.get('statuses/user_timeline', {
 //     screen_name: 'nationalpost'
