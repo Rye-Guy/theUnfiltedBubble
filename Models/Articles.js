@@ -22,6 +22,8 @@ const ArticleSchema = new Schema({
     sourcePublication:{
         type: String
     }
+},{
+    versionKey: false
 });
 
 var Articles = mongoose.model('Articles', ArticleSchema);

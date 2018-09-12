@@ -14,7 +14,7 @@ const mongoose = require('mongoose');
     $('.contentArticle').each(function (i, element) {
         let articleEntry = {};
         articleEntry.articleTitle = $(this).children('.contentTitle').text();
-        articleEntry.description = $(this).children(".firstWords").text();
+        articleEntry.articleDescription = $(this).children(".firstWords").text();
         articleUrlHalf = $(this).attr("href");
         articleEntry.articleUrl = "https://www.apnews.com/" + articleUrlHalf;
         articleEntry.sourcePublication = 'The Associated Press';
@@ -41,6 +41,12 @@ const mongoose = require('mongoose');
         articleEntry.articleUrl = $(this).children('.headline').children('a').attr('href'); 
         articleEntry.articleDescription = $(this).children('.underline').children('a').text();
         articleEntry.sourcePublication = 'Asia Times';
+        database.Articles.create(articleEntry).then(function(article){
+            console.log(article);
+            console.log('scrapping occurred');
+        }).catch(function(err){
+            console.log(err);
+        });
     });
     await instance.exit();
   })();
@@ -59,8 +65,12 @@ const mongoose = require('mongoose');
         articleEntry.articleDescription = $(this).children('.single-excerpt').children('p').text();
         articleEntry.sourcePublication = 'MintPress News';
         console.log(articleEntry);
+        database.Articles.create(articleEntry).then(function(article){
+            console.log(article);
+            console.log('scrapping occurred');
+        }).catch(function(err){
+            console.log(err);
+        });
     });
     await instance.exit();
   })();
-
-module.exports = dataScraping;

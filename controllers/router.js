@@ -67,6 +67,16 @@ router.post('/', (req, res, next) =>{
 
 router.get('/home', middleware.requiresLogin, function(req, res){
         return res.render('home');
+        
+});
+
+router.get('/getArticles', function(req, res){
+    database.Articles.find({}).then(function(dbArticles){
+        res.json(dbArticles);
+        console.log('articles found!');
+    }).catch(function(err){
+        res.json(err);
+    });
 });
 
 router.get('/logout', middleware.requiresLogin, function(req, res, next){
