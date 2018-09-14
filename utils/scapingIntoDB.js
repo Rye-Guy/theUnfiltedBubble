@@ -1,10 +1,9 @@
 const phantom = require('phantom');
 const cheerio = require('cheerio');
-const database = require('../Models/index');
+const database = require('../Models');
 const mongoose = require('mongoose');
 
 (async function(){
-    console.log('Hi')
     const instance = await phantom.create();
     const page = await instance.createPage();
     await page.on('onResourceRequested', function (requestData) {});
@@ -25,7 +24,9 @@ const mongoose = require('mongoose');
             console.log(err);
         });
     });
+
     await instance.exit();
+    
 })();
 
 (async function() {
@@ -48,7 +49,9 @@ const mongoose = require('mongoose');
             console.log(err);
         });
     });
+
     await instance.exit();
+
   })();
 
   (async function() {
@@ -72,5 +75,7 @@ const mongoose = require('mongoose');
             console.log(err);
         });
     });
+
     await instance.exit();
+
   })();
