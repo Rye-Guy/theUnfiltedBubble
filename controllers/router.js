@@ -19,7 +19,13 @@ const middleware = {
 
 
 router.get('/', (req, res, next) =>{
-    res.render('login')
+    if(req.session.userId){
+        console.log(req.session.userId);
+        res.render('home');
+    }else{
+    
+    res.render('login');
+    }
 });
 
 router.post('/', (req, res, next) =>{
