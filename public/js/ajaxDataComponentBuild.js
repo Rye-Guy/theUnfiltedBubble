@@ -17,6 +17,8 @@ fetch('/getArticles').then(function(response){
         let articleLink = document.createElement('a');
         articleLink.innerText = 'Article Link';
         let publicationString = document.createElement('a');
+        let floatingActionButton = document.createElement('a');
+        floatingActionButton.className = 'btn-floating btn-large waves-effect waves-light red';
         publicationString.innerText = 'Source: ' + articleJSONData[i].sourcePublication;
         articleTextTitle.innerText = articleJSONData[i].articleTitle;
         articleTextDescription.innerText = articleJSONData[i].articleDescription;
@@ -27,7 +29,7 @@ fetch('/getArticles').then(function(response){
         articleText.append(articleTextDescription);
         articleLinkArea.append(articleLink);
         articleLinkArea.append(publicationString);
-
+        articleLinkArea.append(floatingActionButton);
         container.append(newCard);
     }
 });

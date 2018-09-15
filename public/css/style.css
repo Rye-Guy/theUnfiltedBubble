@@ -5,6 +5,10 @@
 }
 
 .card{
-    width: 400px;
+    width: 435px;
 }
 
+.btn-floating.btn-large{
+    top: -69px;
+    float: right;
+}

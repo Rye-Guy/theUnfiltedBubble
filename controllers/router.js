@@ -49,6 +49,7 @@ router.post('/', (req, res, next) =>{
                      usernameLog = req.body.username;
                      console.log()
                      req.session.userId = user._id;
+                     req.session.usernameLogged = user.username;
                      console.log(user);
                      return res.redirect('/home');
                  }
@@ -60,7 +61,7 @@ router.post('/', (req, res, next) =>{
                 res.redirect('/error');
             }else{
                 req.session.userId = user._id;
-                req.session.usernameLog = user.username;
+                req.session.usernameLogged = user.username;
                 console.log(user);
                 return res.redirect('/home');
             }
@@ -78,7 +79,7 @@ router.get('/home', middleware.requiresLogin, function(req, res){
 });
 
 router.get('/getUser', middleware.requiresLogin, function(req, res){
-
+    res.json(req.session.usernameLogged);
 });
 
 router.get('/getArticles', function(req, res){
