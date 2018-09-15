@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const database = require('../Models/index');
-
+let usernameLog;
 
 const middleware = {
     requiresLogin: function requiresLogin(req, res, next){
@@ -20,10 +20,8 @@ const middleware = {
 
 router.get('/', (req, res, next) =>{
     if(req.session.userId){
-        console.log(req.session.userId);
         res.render('home');
     }else{
-    
     res.render('login');
     }
 });
@@ -48,6 +46,8 @@ router.post('/', (req, res, next) =>{
                  if(err){
                      return next(err);
                  }else{
+                     usernameLog = req.body.username;
+                     console.log()
                      req.session.userId = user._id;
                      console.log(user);
                      return res.redirect('/home');
@@ -60,6 +60,7 @@ router.post('/', (req, res, next) =>{
                 res.redirect('/error');
             }else{
                 req.session.userId = user._id;
+                req.session.usernameLog = user.username;
                 console.log(user);
                 return res.redirect('/home');
             }
@@ -74,6 +75,10 @@ router.post('/', (req, res, next) =>{
 router.get('/home', middleware.requiresLogin, function(req, res){
         return res.render('home');
         
+});
+
+router.get('/getUser', middleware.requiresLogin, function(req, res){
+
 });
 
 router.get('/getArticles', function(req, res){
