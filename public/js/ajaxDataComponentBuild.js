@@ -1,10 +1,10 @@
-fetch('/getArticles').then(function(response){
-    console.log(response)
-    return response.json()
-}).then(function (articleJSONData){
+fetch('/getArticles').then(function (response) {
+    console.log(response);
+    return response.json();
+}).then(function (articleJSONData) {
     const container = document.getElementById('articlesContainer');
     console.log(articleJSONData);
-    for(i = 0; i < articleJSONData.length; i++){
+    for (i = 0; i < articleJSONData.length; i++) {
         let newCard = document.createElement('div');
         newCard.className = 'card blue-grey darken-1';
         let articleText = document.createElement('div');
@@ -19,6 +19,7 @@ fetch('/getArticles').then(function(response){
         let publicationString = document.createElement('a');
         let floatingActionButton = document.createElement('a');
         floatingActionButton.className = 'btn-floating btn-large waves-effect waves-light red';
+        floatingActionButton.id = 'saveArticle';
         publicationString.innerText = 'Source: ' + articleJSONData[i].sourcePublication;
         articleTextTitle.innerText = articleJSONData[i].articleTitle;
         articleTextDescription.innerText = articleJSONData[i].articleDescription;
@@ -33,6 +34,3 @@ fetch('/getArticles').then(function(response){
         container.append(newCard);
     }
 });
-
-
-

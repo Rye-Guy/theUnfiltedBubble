@@ -1,4 +1,5 @@
 module.exports = {
     Articles: require('./Articles'),
-    User: require('./User')
+    User: require('./User'),
+    SavedArticles: require('./SelectedArticles')
 }

@@ -91,6 +91,35 @@ router.get('/getArticles', function(req, res){
     });
 });
 
+router.get("/getArticles/:id", function(req, res){
+    database.Articles.findOne({"_id": req.params.id}).populate("saved").exec(function (err, doc){
+        if(err){
+            console.log(err);
+        }else{
+            res.json(doc);
+        }    
+    });
+});
+
+
+router.post('/savedArticles/:id', function(req, res){
+    let newArticle = new newArticle(req.body);
+    newArticle.save(function(err, doc){
+        if(err){
+        console.log(err);
+        }else{
+            database.SavedArticles.findOneAndUpdate({"_id": req.params.id}, {"note": doc._id}).exec(function(err, doc){
+                if(err){
+                    console.log(err);
+                }else{
+                    res.send(doc);                
+                }
+            });
+        }
+    })
+});
+
+
 router.get('/logout', middleware.requiresLogin, function(req, res, next){
     req.session.destroy(function(err){
         if(err){
