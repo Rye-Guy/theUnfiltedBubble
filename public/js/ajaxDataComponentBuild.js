@@ -33,4 +33,8 @@ fetch('/getArticles').then(function (response) {
         articleLinkArea.append(floatingActionButton);
         container.append(newCard);
     }
+    
+    document.getElementById('saveArticle').addEventListener('click', function (){
+        console.log('Hi');
+        });
 });
