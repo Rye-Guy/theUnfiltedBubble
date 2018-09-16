@@ -6,7 +6,10 @@ fetch('/getArticles').then(function (response) {
     console.log(articleJSONData);
     for (i = 0; i < articleJSONData.length; i++) {
         let newCard = document.createElement('div');
+        newCard.id = 'articleEntry';
         newCard.className = 'card blue-grey darken-1';
+        newCard.setAttribute('data-id', articleJSONData[i]._id);
+        newCard.setAttribute('onclick', 'findArticleId(this)')
         let articleText = document.createElement('div');
         articleText.className = 'card-content white-text';
         let articleTextTitle = document.createElement('span');
@@ -32,9 +35,19 @@ fetch('/getArticles').then(function (response) {
         articleLinkArea.append(publicationString);
         articleLinkArea.append(floatingActionButton);
         container.append(newCard);
+     
     }
     
-    document.getElementById('saveArticle').addEventListener('click', function (){
-        console.log('Hi');
-        });
+    const article = document.getElementsByClassName('card');
+    console.log(article);
+    findArticleId = (ele) => {
+        let articleId = ele.getAttribute('data-id');
+        console.log(articleId);
+    }
+    Array.from(article).forEach((ele) =>{
+        ele.addEventListener('click', findArticleId);
+    });
+  
 });
+
+
