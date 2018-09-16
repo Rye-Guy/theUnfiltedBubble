@@ -6,7 +6,7 @@ const SavedArticleSchema = new Schema({
         type: String
     },
     savedDescription:{
-    
+        type: String
     },
     savedUrl:{
         type: String

@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const session = require('express-session');
 const exphbs = require("express-handlebars");
 const routes = require('./controllers/router');
-const dataScraping = require('./utils/scapingIntoDB');
+// const dataScraping = require('./utils/scapingIntoDB');
 const MongoStore = require('connect-mongo')(session);
 const app = express();
 
@@ -30,7 +30,7 @@ app.use(session({
     })
 }));
 
-app.get(dataScraping);
+//app.get(dataScraping);
 app.use('/', routes);
 app.listen(process.env.PORT || 8890, () => {
     console.log("Server is running!");

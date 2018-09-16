@@ -37,12 +37,23 @@ fetch('/getArticles').then(function (response) {
         container.append(newCard);
      
     }
-    
+
     const article = document.getElementsByClassName('card');
     console.log(article);
+    
     findArticleId = (ele) => {
         let articleId = ele.getAttribute('data-id');
+        console.log(ele);
+        let articleTitle = ele
+        let data = {savedTitle: articleId}
         console.log(articleId);
+        fetch('/getArticles/' + articleId, 
+            {method: 'POST', 
+            body: JSON.stringify(data),
+            headers: {'Content-Type': 'application/json'}
+    }).then(res => res.json())
+        .then(response => console.log('Success:', JSON.stringify(response)))
+        .catch(error => console.error('Error:', error));
     }
     Array.from(article).forEach((ele) =>{
         ele.addEventListener('click', findArticleId);

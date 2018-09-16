@@ -92,7 +92,7 @@ router.get('/getArticles', function(req, res){
 });
 
 router.get("/getArticles/:id", function(req, res){
-    database.Articles.findOne({"_id": req.params.id}).populate("saved").exec(function (err, doc){
+    database.Articles.findOne({"_id": req.params.id}).populate("savedArticles").exec(function (err, doc){
         if(err){
             console.log(err);
         }else{
@@ -101,14 +101,15 @@ router.get("/getArticles/:id", function(req, res){
     });
 });
 
-
-router.post('/savedArticles/:id', function(req, res){
-    let newArticle = new newArticle(req.body);
+const SavedArticles = database.SavedArticles;
+router.post('/getArticles/:id', function(req, res){
+    let newArticle = new SavedArticles(req.body);
+    console.log(req.body);
     newArticle.save(function(err, doc){
         if(err){
         console.log(err);
         }else{
-            database.SavedArticles.findOneAndUpdate({"_id": req.params.id}, {"note": doc._id}).exec(function(err, doc){
+            database.SavedArticles.findOneAndUpdate({"_id": req.params.id}, {"savedArticles": doc._id}).exec(function(err, doc){
                 if(err){
                     console.log(err);
                 }else{
