@@ -21,7 +21,7 @@ const middleware = {
 router.get('/', (req, res, next) =>{
     if(req.session.userId){
         res.render('home');
-        res.cookie('username', req.session.usernameLogged, {expires: new Date(Date.now() + 900000), httpOnly: true});
+        // res.cookie('username', req.session.usernameLogged, {expires: new Date(Date.now() + 900000), httpOnly: true});
     }else{
     res.render('login');
     }

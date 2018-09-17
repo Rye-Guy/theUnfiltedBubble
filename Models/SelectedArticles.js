@@ -13,6 +13,9 @@ const SavedArticleSchema = new Schema({
     },
     savedPublication:{
         type: String
+    },
+    savedUser:{
+        type: String
     }
 },{
     versionKey: false

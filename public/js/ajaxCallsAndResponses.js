@@ -1,3 +1,20 @@
+function getUserData(){
+    fetch('/getUser').then(function(response){
+        console.log(response);
+        return response.json();
+    }).then(function(username){
+        console.log(username);
+        usernameContainer.innerText = username
+        let now = new Date();
+        let time = now.getTime();
+        time += 3600 + 1000;
+        now.setTime(time);
+        document.cookie = 'username=' + username + '; expires=' + now.toUTCString() + '; path=/';
+    });    
+}
+getUserData();
+
+
 fetch('/getArticles').then(function (response) {
     console.log(response);
     return response.json();
@@ -39,17 +56,29 @@ fetch('/getArticles').then(function (response) {
         container.append(newCard);
      
     }
-    console.log(document);
+    const docCookies = {
+        getItem: function (sKey) {
+          if (!sKey) { return null; }
+          getUserData();
+          return document.cookie.replace(/(?:(?:^|.*;\s*)username\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+        }
+    }
     const article = document.getElementsByClassName('card');
     findArticleId = (ele) => {
         let articleId = ele.getAttribute('data-id');
+        let savedUsername =  docCookies.getItem('username');
+        if(savedUsername == '' || null){
+            getUserData();
+            findArticleId(ele);
+        }
         let savedArticleTitle = ele.childNodes[0].childNodes[0].innerText;
         let savedArticleDescription = ele.childNodes[0].childNodes[1].innerText;
         let savedArticleUrl = ele.childNodes[1].childNodes[0].href;
-        let savedSourcePublication = ele.childNodes[1].childNodes[1].innerText
-        console.log(document.cookie);
-        let data = {savedTitle: savedArticleTitle, savedDescription: savedArticleDescription, savedUrl: savedArticleUrl, savedPublication: savedSourcePublication}
+        let savedSourcePublication = ele.childNodes[1].childNodes[2].innerText
+        console.log(savedUsername);
+        let data = {savedTitle: savedArticleTitle, savedDescription: savedArticleDescription, savedUrl: savedArticleUrl, savedPublication: savedSourcePublication, savedUser: savedUsername}
         console.log(articleId);
+        
         fetch('/getArticles/' + articleId, 
             {method: 'POST', 
             body: JSON.stringify(data),
@@ -57,11 +86,11 @@ fetch('/getArticles').then(function (response) {
     }).then(res => res.json())
         .then(response => console.log('Success:', JSON.stringify(response)))
         .catch(error => console.error('Error:', error));
+        // window.location.reload();
     }
     Array.from(article).forEach((ele) =>{
         ele.addEventListener('click', findArticleId);
     });
-  
 });
 
 
