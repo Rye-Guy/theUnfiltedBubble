@@ -26,7 +26,7 @@ fetch('/getArticles').then(function (response) {
         newCard.id = 'articleEntry';
         newCard.className = 'card blue-grey darken-1';
         newCard.setAttribute('data-id', articleJSONData[i]._id);
-        newCard.setAttribute('onclick', 'findArticleId(this)')
+        // newCard.setAttribute('onclick', 'findArticleId(this)')
         let articleText = document.createElement('div');
         articleText.className = 'card-content white-text';
         let articleTextTitle = document.createElement('span');
@@ -40,6 +40,7 @@ fetch('/getArticles').then(function (response) {
         let br = document.createElement('br');
         let floatingActionButton = document.createElement('a');
         floatingActionButton.className = 'btn-floating btn-large waves-effect waves-light red';
+        floatingActionButton.setAttribute('onclick', 'findArticleId(this)')
         floatingActionButton.id = 'saveArticle';
         publicationString.innerText = 'Source: ' + articleJSONData[i].sourcePublication;
         articleTextTitle.innerText = articleJSONData[i].articleTitle;
@@ -65,16 +66,16 @@ fetch('/getArticles').then(function (response) {
     }
     const article = document.getElementsByClassName('card');
     findArticleId = (ele) => {
+        console.log(ele.parentNode.parentNode);
         let articleId = ele.getAttribute('data-id');
         let savedUsername =  docCookies.getItem('username');
-        let savedArticleTitle = ele.childNodes[0].childNodes[0].innerText;
-        let savedArticleDescription = ele.childNodes[0].childNodes[1].innerText;
-        let savedArticleUrl = ele.childNodes[1].childNodes[0].href;
-        let savedSourcePublication = ele.childNodes[1].childNodes[2].innerText
-        console.log(savedUsername);
+        let savedArticleTitle = ele.parentNode.parentNode.childNodes[0].childNodes[0].innerText;
+        let savedArticleDescription = ele.parentNode.parentNode.childNodes[0].childNodes[1].innerText;
+        let savedArticleUrl = ele.parentNode.parentNode.childNodes[1].childNodes[0].href;
+        let savedSourcePublication = ele.parentNode.parentNode.childNodes[1].childNodes[2].innerText
         let data = {savedTitle: savedArticleTitle, savedDescription: savedArticleDescription, savedUrl: savedArticleUrl, savedPublication: savedSourcePublication, savedUser: savedUsername}
         if(savedUsername == ''){
-            getUserData().then(findArticleId(ele));
+            getUserData();
         }else{   
         fetch('/getArticles/' + articleId, 
             {method: 'POST', 
@@ -87,7 +88,8 @@ fetch('/getArticles').then(function (response) {
     }
     }
     Array.from(article).forEach((ele) =>{
-        ele.addEventListener('click', findArticleId);
+        btn = ele.childNodes[1].childNodes[3];
+        btn.addEventListener('click', findArticleId);
     });
 });
 
