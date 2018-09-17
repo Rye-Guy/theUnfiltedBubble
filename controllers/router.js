@@ -21,6 +21,7 @@ const middleware = {
 router.get('/', (req, res, next) =>{
     if(req.session.userId){
         res.render('home');
+        res.cookie('username', req.session.usernameLogged, {expires: new Date(Date.now() + 900000), httpOnly: true});
     }else{
     res.render('login');
     }
@@ -113,21 +114,14 @@ router.post('/getArticles/:id', function(req, res){
             console.log(savedArticle);
         }
     });
+});
 
-    // newArticle.save(function(err, doc){
-    //     if(err){
-    //     console.log(err);
-    //     }else{
-    //         database.SavedArticles.findOneAndUpdate({"_id": req.params.id}, {"savedArticles": doc._id}).exec(function(err, doc){
-    //             if(err){
-    //                 console.log(err);
-    //             }else{
-    //                 console.log(doc);
-    //                 res.send(doc);                
-    //             }
-    //         });
-    //     }
-    // })
+router.get('/savedArticles', middleware.requiresLogin, (req, res, next) =>{
+    database.SavedArticles.find({}).then((savedArticles) =>{
+        res.json(savedArticles);
+    }).catch((err) =>{
+        console.log(err);
+    })
 });
 
 

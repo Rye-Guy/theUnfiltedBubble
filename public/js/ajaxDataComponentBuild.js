@@ -39,7 +39,7 @@ fetch('/getArticles').then(function (response) {
         container.append(newCard);
      
     }
-
+    console.log(document);
     const article = document.getElementsByClassName('card');
     findArticleId = (ele) => {
         let articleId = ele.getAttribute('data-id');
@@ -47,6 +47,7 @@ fetch('/getArticles').then(function (response) {
         let savedArticleDescription = ele.childNodes[0].childNodes[1].innerText;
         let savedArticleUrl = ele.childNodes[1].childNodes[0].href;
         let savedSourcePublication = ele.childNodes[1].childNodes[1].innerText
+        console.log(document.cookie);
         let data = {savedTitle: savedArticleTitle, savedDescription: savedArticleDescription, savedUrl: savedArticleUrl, savedPublication: savedSourcePublication}
         console.log(articleId);
         fetch('/getArticles/' + articleId, 
