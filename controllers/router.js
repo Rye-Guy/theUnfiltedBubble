@@ -4,7 +4,7 @@ const database = require('../Models/index');
 let usernameLog;
 
 const middleware = {
-    requiresLogin: function requiresLogin(req, res, next){
+    requiresLogin: (req, res, next) =>{
         if(req.session && req.session.userId){
             console.log('Middleware doing its stuff :D');
             return next();
@@ -74,17 +74,21 @@ router.post('/', (req, res, next) =>{
     }
 });
 
-router.get('/home', middleware.requiresLogin, function(req, res){
+router.get('/home', middleware.requiresLogin, (req, res) =>{
         return res.render('home');
         
 });
 
-router.get('/getUser', middleware.requiresLogin, function(req, res){
+router.get('/savedArticles', middleware.requiresLogin, (req, res)=>{
+    return res.render('savedArticles');
+});
+
+router.get('/getUser', middleware.requiresLogin, (req, res) =>{
     res.json(req.session.usernameLogged);
 });
 
-router.get('/getArticles', function(req, res){
-    database.Articles.find({}).then(function(dbArticles){
+router.get('/getArticles', (req, res) =>{
+    database.Articles.find({}).then((dbArticles) =>{
         res.json(dbArticles);
         console.log('articles found!');
     }).catch(function(err){
@@ -92,8 +96,8 @@ router.get('/getArticles', function(req, res){
     });
 });
 
-router.get("/getArticles/:id", function(req, res){
-    database.Articles.findOne({"_id": req.params.id}).populate("savedArticles").exec(function (err, doc){
+router.get("/getArticles/:id", (req, res) =>{
+    database.Articles.findOne({"_id": req.params.id}).populate("savedArticles").exec((err, doc) =>{
         if(err){
             console.log(err);
         }else{
@@ -103,7 +107,7 @@ router.get("/getArticles/:id", function(req, res){
 });
 
 const SavedArticles = database.SavedArticles;
-router.post('/getArticles/:id', function(req, res){
+router.post('/getArticles/:id', (req, res) =>{
     let newArticle = new SavedArticles(req.body)
     console.log(req.params);
 
@@ -116,7 +120,7 @@ router.post('/getArticles/:id', function(req, res){
     });
 });
 
-router.get('/savedArticles', middleware.requiresLogin, (req, res, next) =>{
+router.get('/getSavedArticles', middleware.requiresLogin, (req, res, next) =>{
     database.SavedArticles.find({}).then((savedArticles) =>{
         res.json(savedArticles);
     }).catch((err) =>{
@@ -125,8 +129,8 @@ router.get('/savedArticles', middleware.requiresLogin, (req, res, next) =>{
 });
 
 
-router.get('/logout', middleware.requiresLogin, function(req, res, next){
-    req.session.destroy(function(err){
+router.get('/logout', middleware.requiresLogin, (req, res, next) =>{
+    req.session.destroy((err) =>{
         if(err){
             next(err);
         }else{
@@ -135,7 +139,7 @@ router.get('/logout', middleware.requiresLogin, function(req, res, next){
     });
 });
 
-router.get('/error', function(req, res){
+router.get('/error', (req, res) =>{
     res.render('error');
 });
 

@@ -1,20 +1,3 @@
-function getUserData(){
-    fetch('/getUser').then(function(response){
-        console.log(response);
-        return response.json();
-    }).then(function(username){
-        console.log(username);
-        usernameContainer.innerText = username
-        let now = new Date();
-        let time = now.getTime();
-        time += 3600 + 1000;
-        now.setTime(time);
-        document.cookie = 'username=' + username + '; expires=' + now.toUTCString() + '; path=/';
-    });    
-}
-getUserData();
-
-
 fetch('/getArticles').then(function (response) {
     console.log(response);
     return response.json();
@@ -66,8 +49,7 @@ fetch('/getArticles').then(function (response) {
     }
     const article = document.getElementsByClassName('card');
     findArticleId = (ele) => {
-        console.log(ele.parentNode.parentNode);
-        let articleId = ele.getAttribute('data-id');
+        let articleId = ele.parentNode.parentNode.getAttribute('data-id');
         let savedUsername =  docCookies.getItem('username');
         let savedArticleTitle = ele.parentNode.parentNode.childNodes[0].childNodes[0].innerText;
         let savedArticleDescription = ele.parentNode.parentNode.childNodes[0].childNodes[1].innerText;
