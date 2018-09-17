@@ -39,13 +39,13 @@ fetch('/getArticles').then(function (response) {
     }
 
     const article = document.getElementsByClassName('card');
-    console.log(article);
-    
     findArticleId = (ele) => {
         let articleId = ele.getAttribute('data-id');
-        console.log(ele);
-        let articleTitle = ele
-        let data = {savedTitle: articleId}
+        let savedArticleTitle = ele.childNodes[0].childNodes[0].innerText;
+        let savedArticleDescription = ele.childNodes[0].childNodes[1].innerText;
+        let savedArticleUrl = ele.childNodes[1].childNodes[0].href;
+        let savedSourcePublication = ele.childNodes[1].childNodes[1].innerText
+        let data = {savedTitle: savedArticleTitle, savedDescription: savedArticleDescription, savedUrl: savedArticleUrl, savedPublication: savedSourcePublication}
         console.log(articleId);
         fetch('/getArticles/' + articleId, 
             {method: 'POST', 

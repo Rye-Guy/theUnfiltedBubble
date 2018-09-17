@@ -103,21 +103,31 @@ router.get("/getArticles/:id", function(req, res){
 
 const SavedArticles = database.SavedArticles;
 router.post('/getArticles/:id', function(req, res){
-    let newArticle = new SavedArticles(req.body);
-    console.log(req.body);
-    newArticle.save(function(err, doc){
+    let newArticle = new SavedArticles(req.body)
+    console.log(req.params);
+
+    SavedArticles.create(newArticle, (err, savedArticle) =>{
         if(err){
-        console.log(err);
+            console.log(err);
         }else{
-            database.SavedArticles.findOneAndUpdate({"_id": req.params.id}, {"savedArticles": doc._id}).exec(function(err, doc){
-                if(err){
-                    console.log(err);
-                }else{
-                    res.send(doc);                
-                }
-            });
+            console.log(savedArticle);
         }
-    })
+    });
+
+    // newArticle.save(function(err, doc){
+    //     if(err){
+    //     console.log(err);
+    //     }else{
+    //         database.SavedArticles.findOneAndUpdate({"_id": req.params.id}, {"savedArticles": doc._id}).exec(function(err, doc){
+    //             if(err){
+    //                 console.log(err);
+    //             }else{
+    //                 console.log(doc);
+    //                 res.send(doc);                
+    //             }
+    //         });
+    //     }
+    // })
 });
 
 
