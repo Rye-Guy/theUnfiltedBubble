@@ -67,18 +67,15 @@ fetch('/getArticles').then(function (response) {
     findArticleId = (ele) => {
         let articleId = ele.getAttribute('data-id');
         let savedUsername =  docCookies.getItem('username');
-        if(savedUsername == '' || null){
-            getUserData();
-            findArticleId(ele);
-        }
         let savedArticleTitle = ele.childNodes[0].childNodes[0].innerText;
         let savedArticleDescription = ele.childNodes[0].childNodes[1].innerText;
         let savedArticleUrl = ele.childNodes[1].childNodes[0].href;
         let savedSourcePublication = ele.childNodes[1].childNodes[2].innerText
         console.log(savedUsername);
         let data = {savedTitle: savedArticleTitle, savedDescription: savedArticleDescription, savedUrl: savedArticleUrl, savedPublication: savedSourcePublication, savedUser: savedUsername}
-        console.log(articleId);
-        
+        if(savedUsername == ''){
+            getUserData().then(findArticleId(ele));
+        }else{   
         fetch('/getArticles/' + articleId, 
             {method: 'POST', 
             body: JSON.stringify(data),
@@ -87,6 +84,7 @@ fetch('/getArticles').then(function (response) {
         .then(response => console.log('Success:', JSON.stringify(response)))
         .catch(error => console.error('Error:', error));
         // window.location.reload();
+    }
     }
     Array.from(article).forEach((ele) =>{
         ele.addEventListener('click', findArticleId);
