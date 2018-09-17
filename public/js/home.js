@@ -7,7 +7,7 @@ fetch('/getArticles').then(function (response) {
     for (i = 0; i < articleJSONData.length; i++) {
         let newCard = document.createElement('div');
         newCard.id = 'articleEntry';
-        newCard.className = 'card blue-grey darken-1';
+        newCard.className = 'card blue-grey darken-1 card-width';
         newCard.setAttribute('data-id', articleJSONData[i]._id);
         // newCard.setAttribute('onclick', 'findArticleId(this)')
         let articleText = document.createElement('div');

@@ -1,11 +1,12 @@
 #articlesContainer{
+    margin-top: 22px;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-evenly;
 }
 
-.card{
-    width: 435px;
+.card-width{
+    width: 400px;
 }
 
 .btn-floating.btn-large{
