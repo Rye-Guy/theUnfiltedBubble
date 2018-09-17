@@ -11,4 +11,8 @@
 .btn-floating.btn-large{
     top: -70px;
     float: right;
+    background-image: url(../images/icons/save-file-option.svg);
+    background-repeat: no-repeat;
+    background-size: 58px 37px;
+    background-position-y: 8px;
 }

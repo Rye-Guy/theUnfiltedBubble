@@ -19,7 +19,8 @@ fetch('/getArticles').then(function (response) {
         articleLinkArea.className = 'card-action';
         let articleLink = document.createElement('a');
         articleLink.innerText = 'Article Link';
-        let publicationString = document.createElement('a');
+        let publicationString = document.createElement('a') 
+        let br = document.createElement('br');
         let floatingActionButton = document.createElement('a');
         floatingActionButton.className = 'btn-floating btn-large waves-effect waves-light red';
         floatingActionButton.id = 'saveArticle';
@@ -32,6 +33,7 @@ fetch('/getArticles').then(function (response) {
         articleText.append(articleTextTitle);
         articleText.append(articleTextDescription);
         articleLinkArea.append(articleLink);
+        articleLinkArea.append(br);
         articleLinkArea.append(publicationString);
         articleLinkArea.append(floatingActionButton);
         container.append(newCard);
