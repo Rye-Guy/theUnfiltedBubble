@@ -1,4 +1,16 @@
 <script src="js/getUserName.js"></script>
 <script src="js/home.js"></script>
-<div id="articlesContainer">
-</div
+<div class="row">
+    <form class="col s12" action='/search' method="post">
+      <div class="row">
+        <div class="input-field col s12">
+          <input id="textarea1" class="materialize-textarea" name="searchInput"></input>
+          <label for="textarea1"></label>
+             <input id="searchBtn" class="waves-effect waves-light btn" value="Search!" type="submit"></input>
+        </div>
+      </div>
+    </form>
+  </div>
+<div class="row">
+<div id="articlesContainer"></div>
+</div>  

@@ -75,4 +75,12 @@ fetch('/getArticles').then(function (response) {
     });
 });
 
+function searchForArticles(){
+    
+}
+
+
+searchBtn = document.getElementById('searchBtn');
+searchBtn.addEventListener('click', searchForArticles);
+
 

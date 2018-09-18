@@ -130,12 +130,25 @@ router.get('/getSavedArticles', middleware.requiresLogin, (req, res, next) =>{
 
 router.get('/search', middleware.requiresLogin, (req, res, next)=>{
     // database.Articles.createIndex({ articleTitle: "text" });
-    database.Articles.find({$text: {$search: 'trump'}}).then((result)=>{
+    database.Articles.find({$text: {$search: 'hello world'}}).then((result)=>{
         res.json(result);
         console.log('articles found!');
     }).catch(function(err){
         res.json(err);
     });
+});
+
+router.post('/search', middleware.requiresLogin, (req, res, next)=>{
+    // database.Articles.createIndex({ articleTitle: "text" });
+    console.log(req.body);
+    if(req.body.searchInput){
+    database.Articles.find({$text: {$search: req.body.searchInput}}).then((result)=>{
+        res.json(result);
+        console.log('articles found!');
+    }).catch(function(err){
+        res.json(err);
+    });
+    }
 });
 
 
