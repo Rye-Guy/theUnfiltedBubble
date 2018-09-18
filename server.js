@@ -8,8 +8,8 @@ const routes = require('./controllers/router');
 const MongoStore = require('connect-mongo')(session);
 const app = express();
 
-app.engine('handlebars', exphbs({defaultLayout: "main"}));
-app.set('view engine', 'handlebars');
+app.engine('.hbs', exphbs({defaultLayout: "main", extname: '.hbs'}));
+app.set('view engine', '.hbs');
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 app.use(express.static('public'));

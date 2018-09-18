@@ -19,10 +19,8 @@ fetch('/getSavedArticles').then((response)=>{
         let articleLink = document.createElement('a');
         articleLink.innerText = 'Article Link' + ' Shared By: ' + 
         savedArticleJSON[i].savedUser;
-        
         let commentBtn = document.createElement('a');
         commentBtn.className = 'btn-floating btn-large waves-effect waves-light green'
-
         articleTextTitle.innerText = savedArticleJSON[i].savedTitle;
         sourceHeading.innerText = savedArticleJSON[i].savedPublication
         articleLink.href = savedArticleJSON[i].savedUrl;
@@ -32,8 +30,6 @@ fetch('/getSavedArticles').then((response)=>{
         articleText.append(sourceHeading);
         articleLinkArea.append(articleLink);
         newCard.append(commentBtn);
-        
-        
         container.append(newCard);
     }
 });
