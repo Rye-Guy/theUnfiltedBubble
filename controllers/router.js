@@ -128,6 +128,16 @@ router.get('/getSavedArticles', middleware.requiresLogin, (req, res, next) =>{
     })
 });
 
+router.get('/search', middleware.requiresLogin, (req, res, next)=>{
+    // database.Articles.createIndex({ articleTitle: "text" });
+    database.Articles.find({$text: {$search: 'trump'}}).then((result)=>{
+        res.json(result);
+        console.log('articles found!');
+    }).catch(function(err){
+        res.json(err);
+    });
+});
+
 
 router.get('/logout', middleware.requiresLogin, (req, res, next) =>{
     req.session.destroy((err) =>{
