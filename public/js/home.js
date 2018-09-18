@@ -76,9 +76,13 @@ fetch('/getArticles').then(function (response) {
 });
 
 function searchForArticles(){
-    
+    fetch('/search').then((response)=>{
+        console.log(response);
+        return response.json();
+    }).then((searchResults)=>{
+        console.log(searchResults);
+    });
 }
-
 
 searchBtn = document.getElementById('searchBtn');
 searchBtn.addEventListener('click', searchForArticles);

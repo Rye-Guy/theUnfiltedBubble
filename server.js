@@ -30,8 +30,8 @@ app.use(session({
     })
 }));
 
-//app.get(dataScraping);
+// app.get(dataScraping);
 app.use('/', routes);
-app.listen(process.env.PORT || 8891, () => {
+app.listen(process.env.PORT || 8893, () => {
     console.log("Server is running!");
 });
