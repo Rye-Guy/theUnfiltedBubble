@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const database = require('../Models/index');
 const LocalStorage = require('node-localstorage').LocalStorage;
-localStorage = new LocalStorage('./scratch');
+localStorage = new LocalStorage('./clientStoredSearch');
 
 
 const middleware = {
@@ -130,19 +130,22 @@ router.get('/getSavedArticles', middleware.requiresLogin, (req, res, next) =>{
     })
 });
 
-// router.get('/search', middleware.requiresLogin, (req, res, next)=>{
-
-// });
+router.get('/search', middleware.requiresLogin, (req, res, next)=>{
+    res.json(JSON.parse(localStorage.getItem('searchData')));
+}); 
 
 router.post('/search', middleware.requiresLogin, (req, res, next)=>{
     // database.Articles.createIndex({ articleTitle: "text" });
     console.log(req.body);
     if(req.body.searchInput){
     database.Articles.find({$text: {$search: req.body.searchInput}}).then((result)=>{
-        localStorage.setItem('searchData', result);
+        localStorage.setItem('searchData', JSON.stringify(result));
         let currentSearchResults = localStorage.getItem('searchData');
         console.log(currentSearchResults);
-        res.redirect('/');
+        // localStorage.setItem('searchResultsOjb', result);
+        // let currentSearchResults = localStorage.getItem('searchResultsOjb');
+        // console.log(JSON.parse(currentSearchResults));
+        // res.redirect('/');
     }).catch(function(err){
         res.json(err);
     });
