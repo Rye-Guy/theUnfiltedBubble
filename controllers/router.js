@@ -142,6 +142,7 @@ router.post('/search', middleware.requiresLogin, (req, res, next)=>{
         localStorage.setItem('searchData', JSON.stringify(result));
         let currentSearchResults = localStorage.getItem('searchData');
         console.log(currentSearchResults);
+        res.render('searchResults');
         // localStorage.setItem('searchResultsOjb', result);
         // let currentSearchResults = localStorage.getItem('searchResultsOjb');
         // console.log(JSON.parse(currentSearchResults));
