@@ -1,5 +1,5 @@
 const usernameContainer = document.getElementById('usernameNavDisplay');
-// function getUserData(){
+
     fetch('/getUser').then(function(response){
         return response.json();
     }).then(function(username){
@@ -11,6 +11,11 @@ const usernameContainer = document.getElementById('usernameNavDisplay');
         now.setTime(time);
         document.cookie = 'username=' + username + '; expires=' + now.toUTCString() + '; path=/';
     });    
-// }
 
-// getUserData();
+    const docCookies = {
+        getItem: function (sKey) {
+          if (!sKey) { return null; }
+        //   getUserData();
+          return document.cookie.replace(/(?:(?:^|.*;\s*)username\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+        }
+    }

@@ -1,11 +1,3 @@
-const docCookies = {
-    getItem: function (sKey) {
-      if (!sKey) { return null; }
-    //   getUserData();
-      return document.cookie.replace(/(?:(?:^|.*;\s*)username\s*\=\s*([^;]*).*$)|^.*$/, "$1");
-    }
-}
-
 const article = document.getElementsByClassName('card');
 
 findArticleId = (ele) => {

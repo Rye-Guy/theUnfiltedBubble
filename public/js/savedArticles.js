@@ -1,24 +1,30 @@
 document.addEventListener('DOMContentLoaded', function() {
-    const elems = document.querySelectorAll('.modal');
-    console.log(elems);
-    let instances = M.Modal.init(elems);
-
-    const commentBtns = document.getElementsByClassName('btn-floating');
-    console.log(commentBtns);
-
+    const commentPostBtn = document.getElementById('postCommentBtn');
     elem = document.getElementById('modal1');
+    // let instances = M.Modal.init(elems);
     
-    Array.from(commentBtns).forEach((commentBtn)=>{
-        console.log(commentBtn);
-        commentBtn.addEventListener('click', ()=>{
-            let instance = M.Modal.init(elem);
-            instance.open();
-        });
-    });
+    console.log(new Date());
     
+    createCommentPost = ()=>{    
+    commentBody = document.getElementById('commentBody').value;
+    console.log(commentBody);
+        data = {
+        username: docCookies.getItem('username'),
+        body: commentBody,
+        dateOfPost: new Date()
+    }
+    console.log(data);
+    fetch('/getSavedArticles'+ articleId, 
+        {method: 'POST', 
+        body: JSON.stringify(data), 
+        headers: {'Content-Type': 'application/json'}
+    }).then(res=>res.json())
+        .then(response => console.log('Success:', JSON.stringify(response)))
+        .catch(error => console.error('Error:', error));
+    instance.destroy();
+ }
+    commentPostBtn.addEventListener('click', createCommentPost)
 });
-
-
 
 fetch('/getSavedArticles').then((response)=>{
     console.log(response);
@@ -56,4 +62,13 @@ fetch('/getSavedArticles').then((response)=>{
         newCard.append(commentBtn);
         container.append(newCard);
     }
+    const commentBtns = document.getElementsByClassName('btn-floating');
+    Array.from(commentBtns).forEach((commentBtn)=>{
+        console.log(commentBtn);
+        commentBtn.addEventListener('click', ()=>{
+            let instance = M.Modal.init(elem);
+            instance.open();
+        });
+    });
+
 });
