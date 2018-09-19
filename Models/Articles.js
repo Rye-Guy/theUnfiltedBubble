@@ -21,11 +21,6 @@ const ArticleSchema = new Schema({
     },
     sourcePublication:{
         type: String
-    },
-    savedArticles: {
-        type: Schema.Types.ObjectId,
-        ref: "Saved",
-        boolean: false
     }
 },{
     versionKey: false

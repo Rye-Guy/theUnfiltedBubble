@@ -1,3 +1,25 @@
+document.addEventListener('DOMContentLoaded', function() {
+    const elems = document.querySelectorAll('.modal');
+    console.log(elems);
+    let instances = M.Modal.init(elems);
+
+    const commentBtns = document.getElementsByClassName('btn-floating');
+    console.log(commentBtns);
+
+    elem = document.getElementById('modal1');
+    
+    Array.from(commentBtns).forEach((commentBtn)=>{
+        console.log(commentBtn);
+        commentBtn.addEventListener('click', ()=>{
+            let instance = M.Modal.init(elem);
+            instance.open();
+        });
+    });
+    
+});
+
+
+
 fetch('/getSavedArticles').then((response)=>{
     console.log(response);
     return response.json();
@@ -21,6 +43,8 @@ fetch('/getSavedArticles').then((response)=>{
         savedArticleJSON[i].savedUser;
         let commentBtn = document.createElement('a');
         commentBtn.className = 'btn-floating btn-large waves-effect waves-light green'
+        commentBtn.href='#modal1'
+        commentBtn.id='commentModalTrigger'
         articleTextTitle.innerText = savedArticleJSON[i].savedTitle;
         sourceHeading.innerText = savedArticleJSON[i].savedPublication
         articleLink.href = savedArticleJSON[i].savedUrl;
@@ -33,4 +57,3 @@ fetch('/getSavedArticles').then((response)=>{
         container.append(newCard);
     }
 });
-

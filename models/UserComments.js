@@ -1,0 +1,25 @@
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
+
+const UserCommentsSchema = new Schema({
+    username:{
+        type: String,
+        required: true
+    },
+    body:{
+        type: String, 
+        maxlength: 1500,
+        required: true,
+        unique: true
+    },
+    dateOfPost:{
+        type: Date,
+        required: true,
+        unique: true
+    }
+},{
+    versionKey: false
+});
+
+const UserComments = mongoose.model('Comments', UserCommentsSchema);
+module.exports = UserComments

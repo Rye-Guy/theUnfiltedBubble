@@ -85,6 +85,24 @@ router.get('/savedArticles', middleware.requiresLogin, (req, res)=>{
     return res.render('savedArticles');
 });
 
+router.post('/savedArticles/:id', middleware.requiresLogin, (req, res)=>{
+    let newComment = new Comment(req.body);
+    newComment.save(function(err, doc){
+        if(err){
+            res.send(err);
+        }else{
+            database.SavedArticles.findOneAndUpdate({'_id': req.params.id}, {'comments': doc._id}).exec((err, doc)=>{
+                if(err){
+                    res.send(err);
+                }else{
+                    console.log(doc);
+                    res.send(doc);
+                }
+            })
+        }
+    })
+});
+
 router.get('/getUser', middleware.requiresLogin, (req, res) =>{
     res.json(req.session.usernameLogged);
 });

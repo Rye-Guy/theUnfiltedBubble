@@ -7,11 +7,6 @@ const SavedArticleSchema = new Schema({
         required: true,
         unique: true
     },
-    savedDescription:{
-        type: String,
-        required: true,
-        unique: true
-    },
     savedUrl:{
         type: String,
         required: true,
@@ -22,11 +17,21 @@ const SavedArticleSchema = new Schema({
         required: true
     },
     savedUser:{
-        type: String
+        type: String,
+        required: true
+    },
+    comments:{
+        type: Schema.Types.ObjectId,
+        ref: "Comment",
+        boolean: false
+    },
+    votes:{
+        type: Schema.Types.ObjectId,
+        ref: "Vote",
+        boolean: false
     }
 },{
-    versionKey: false,
-    required: true
+    versionKey: false
 });
 
 const SavedArticles = mongoose.model('Saved', SavedArticleSchema);
