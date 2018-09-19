@@ -39,7 +39,6 @@ function buildArticlesFromJSON(route){
             articleLinkArea.append(publicationString);
             articleLinkArea.append(floatingActionButton);
             container.append(newCard);
-         
         }
     })
 }

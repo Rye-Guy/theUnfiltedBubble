@@ -60,7 +60,7 @@ router.post('/', (req, res, next) =>{
     }else if(req.body.logusername && req.body.logpassword){
         database.User.authenticate(req.body.logusername, req.body.logpassword, (error, user)=>{
             if(error || !user){
-                console.log(error);
+                res.send(err);
                 res.redirect('/error');
             }else{
                 req.session.userId = user._id;
@@ -72,7 +72,7 @@ router.post('/', (req, res, next) =>{
     }else{
         let err = new Error('All Fields Required');
         err.status = 400;
-        return console.log(err); 
+        return res.send(err);
     }
 });
 
@@ -101,7 +101,7 @@ router.get('/getArticles', (req, res) =>{
 router.get("/getArticles/:id", (req, res) =>{
     database.Articles.findOne({"_id": req.params.id}).populate("savedArticles").exec((err, doc) =>{
         if(err){
-            console.log(err);
+            res.send(err);
         }else{
             res.json(doc);
         }    
@@ -115,7 +115,7 @@ router.post('/getArticles/:id', (req, res) =>{
 
     SavedArticles.create(newArticle, (err, savedArticle) =>{
         if(err){
-            console.log(err);
+            res.send(err);
         }else{
             console.log(savedArticle);
         }
@@ -126,12 +126,12 @@ router.get('/getSavedArticles', middleware.requiresLogin, (req, res, next) =>{
     database.SavedArticles.find({}).then((savedArticles) =>{
         res.json(savedArticles);
     }).catch((err) =>{
-        console.log(err);
+        res.send(err);
     })
 });
 
 router.get('/search', middleware.requiresLogin, (req, res, next)=>{
-    res.json(JSON.parse(localStorage.getItem('searchData')));
+    res.json(JSON.parse(localStorage.getItem('searchData'+req.session.usernameLogged)));
 }); 
 
 router.post('/search', middleware.requiresLogin, (req, res, next)=>{
@@ -139,8 +139,8 @@ router.post('/search', middleware.requiresLogin, (req, res, next)=>{
     console.log(req.body);
     if(req.body.searchInput){
     database.Articles.find({$text: {$search: req.body.searchInput}}).then((result)=>{
-        localStorage.setItem('searchData', JSON.stringify(result));
-        let currentSearchResults = localStorage.getItem('searchData');
+        localStorage.setItem('searchData'+req.session.usernameLogged, JSON.stringify(result));
+        let currentSearchResults = localStorage.getItem('searchData'+req.session.usernameLogged);
         console.log(currentSearchResults);
         res.render('searchResults');
         // localStorage.setItem('searchResultsOjb', result);
