@@ -69,10 +69,11 @@ document.addEventListener('DOMContentLoaded', function () {
             //create an object with our values. 
             data = {
                 username: docCookies.getItem('username'),
-                body: commentBody
+                body: commentBody,
+                dateOfPost: new Date()
             }
             //ajax makes a post request sets headers and inserts the data
-            fetch('/getSavedArticles/'+docCookies.getItem('articleID'), {
+            fetch('/savedArticles/'+docCookies.getItem('articleID'), {
                     method: 'POST',
                     body: JSON.stringify(data),
                     headers: {

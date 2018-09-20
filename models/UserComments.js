@@ -12,7 +12,11 @@ const UserCommentsSchema = new Schema({
         required: true,
         unique: true
     },
-    dateOfPost: new Date()
+    dateOfPost:{
+        type: String,
+        unique: true,
+        required: true
+    }
 },{
     versionKey: false
 });
