@@ -85,6 +85,18 @@ router.get('/savedArticles', middleware.requiresLogin, (req, res)=>{
     return res.render('savedArticles');
 });
 
+
+
+
+router.get("/comments/:id", function(req, res){
+    database.SavedArticles.findById({ _id : req.params["id"] }).populate("comments").then(function(result){
+        res.json(result);
+    }).catch(function(err){
+        console.log(err);
+        res.json(err);
+    })
+})
+
 const Comment = database.Comments;
 
 router.post('/savedArticles/:id', middleware.requiresLogin, (req, res)=>{
@@ -104,6 +116,8 @@ router.post('/savedArticles/:id', middleware.requiresLogin, (req, res)=>{
         }
     })
 });
+
+
 
 router.get('/getUser', middleware.requiresLogin, (req, res) =>{
     res.json(req.session.usernameLogged);

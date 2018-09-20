@@ -22,7 +22,7 @@ const SavedArticleSchema = new Schema({
     },
     comments:{
         type: Schema.Types.ObjectId,
-        ref: "Comment",
+        ref: "Comments",
         boolean: false
     },
     votes:{
