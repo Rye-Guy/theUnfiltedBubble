@@ -35,12 +35,15 @@ document.addEventListener('DOMContentLoaded', function () {
             articleLinkArea.append(articleLink);
             newCard.append(commentBtn);
             container.append(newCard);
-
         }
 
          
         //create an array of our all saved articles 
         const savedArticlesArray = document.getElementsByClassName('card');
+        const collapsibleUl = document.createElement('ul');
+        collapsibleUl.className = 'collapsible';
+        collapsibleUl.id = 'elementTrigger';
+        const ulTrigger = document.querySelectorAll('.collapsible');
 
         Array.from(savedArticlesArray).forEach((savedArticleItem)=>{
             let articleIdForComment = savedArticleItem.getAttribute('data-id');
@@ -49,7 +52,18 @@ document.addEventListener('DOMContentLoaded', function () {
                 return response.json();
             }).then((commentForArticle) => {
                 console.log(commentForArticle);
-                
+                if(commentForArticle.comments){
+              
+                    articleContainer = document.querySelector(`[data-id='${articleIdForComment}']`);
+                    
+                    collapsibleUl.innerHTML = '<li><div class="collapsible-header">Second</div><div class="collapsible-body">SomeTextYeah</div></li>'
+                    articleContainer.firstChild.append(collapsibleUl);
+                    const elem = document.querySelector('.collapsible');
+                    let instance = M.Collapsible.init(elem);
+                    instance.open(0);
+                }else{
+                    console.log('article with no comment');
+                }
             });
         });
     
