@@ -2,6 +2,10 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const UserCommentsSchema = new Schema({
+    articleId:{
+        type: String,
+        required: true
+    },
     username:{
         type: String,
         required: true

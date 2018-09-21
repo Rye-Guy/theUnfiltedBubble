@@ -52,15 +52,12 @@ document.addEventListener('DOMContentLoaded', function () {
                 return response.json();
             }).then((commentForArticle) => {
                 console.log(commentForArticle);
-                if(commentForArticle.comments){
-              
+                if(commentForArticle.length > 0){
                     articleContainer = document.querySelector(`[data-id='${articleIdForComment}']`);
-                    
-                    collapsibleUl.innerHTML = '<li><div class="collapsible-header">Second</div><div class="collapsible-body">SomeTextYeah</div></li>'
+                    collapsibleUl.innerHTML = '<li class=><div class="collapsible-header">View Comments</div><div class="collapsible-body" style="display: none;"></div></li>'
                     articleContainer.firstChild.append(collapsibleUl);
                     const elem = document.querySelector('.collapsible');
                     let instance = M.Collapsible.init(elem);
-                    instance.open(0);
                 }else{
                     console.log('article with no comment');
                 }
@@ -93,6 +90,7 @@ document.addEventListener('DOMContentLoaded', function () {
             commentBody = document.getElementById('commentBody').value;
             //create an object with our values. 
             data = {
+                articleId: docCookies.getItem('articleID'),
                 username: docCookies.getItem('username'),
                 body: commentBody,
                 dateOfPost: new Date()

@@ -86,13 +86,24 @@ router.get('/savedArticles', middleware.requiresLogin, (req, res)=>{
 });
 
 
-router.get('/getSavedComments/:id', function(req, res){
-    database.SavedArticles.findById({ _id : req.params["id"] }).populate("comments").then(function(result){
+router.get('/getSavedComments/:id', function(req, res){ 
+    console.log(req.params);
+    database.Comments.find({'articleId': req.params.id}).then(function (result){
         res.json(result);
     }).catch(function(err){
         console.log(err);
         res.json(err);
     });
+
+    // console.log(req.params);
+    // database.SavedArticles.find({ _id : req.params["id"] }).populate("comments").then(function(result){
+    //     res.json(result);
+    // }).catch(function(err){
+    //     console.log(err);
+    //     res.json(err);
+    // });
+
+    
 });
 
 const Comment = database.Comments;
