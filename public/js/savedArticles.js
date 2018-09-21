@@ -1,8 +1,5 @@
 document.addEventListener('DOMContentLoaded', function () {
-
-
-
-
+    
     fetch('/getSavedArticles').then((response) => {
         console.log(response);
         return response.json();
@@ -41,6 +38,21 @@ document.addEventListener('DOMContentLoaded', function () {
 
         }
 
+         
+        //create an array of our all saved articles 
+        const savedArticlesArray = document.getElementsByClassName('card');
+
+        Array.from(savedArticlesArray).forEach((savedArticleItem)=>{
+            let articleIdForComment = savedArticleItem.getAttribute('data-id');
+            console.log(articleIdForComment);
+            fetch('/getSavedComments/'+articleIdForComment).then((response) => {
+                return response.json();
+            }).then((commentForArticle) => {
+                console.log(commentForArticle);
+                
+            });
+        });
+    
         //target the comment btn in the modal
         const commentPostBtn = document.getElementById('postCommentBtn');
         //extablishes our one modal as our element 
@@ -56,12 +68,11 @@ document.addEventListener('DOMContentLoaded', function () {
                 //on comment button press open the modal and use the cookie framework to create a cookie with the selected article for the post. 
                 let instance = M.Modal.init(elem);
                 instance.open();
-                docCookies.setItem('articleID', commentBtn.parentElement.getAttribute('data-id'));
+                docCookies.setItem('articleID', commentBtn.parentElement.getAttribute('data-id'));      
             });
-
         });
-        
-       
+
+          
         //function that creates comment post for ajax call
         createCommentPost = (savedArticleItem) => {
             //get the value of whats currently in the comment modal. 
@@ -86,17 +97,14 @@ document.addEventListener('DOMContentLoaded', function () {
             //closes the modal
         }
 
-        //create an array of our all saveed articles 
-        const savedArticlesArray = document.getElementsByClassName('articleEntry');
 
-        Array.from(savedArticlesArray).forEach((savedArticleItem) => {
-            console.log(savedArticleItem);
-            savedArticleItem.addEventListener('click', createCommentPost);
-        });
 
+       
             // let instances = M.Modal.init(elems);    
-            commentPostBtn.addEventListener('click', createCommentPost)
-
+        commentPostBtn.addEventListener('click', createCommentPost);
     });
 
+
 });
+
+
