@@ -24,9 +24,16 @@ document.addEventListener('DOMContentLoaded', function () {
             let articleLink = document.createElement('a');
             articleLink.innerText = 'Article Link' + ' Shared By: ' + savedArticleJSON[i].savedUser;
             let commentBtn = document.createElement('a');
-            commentBtn.className = 'btn-floating btn-large waves-effect waves-light green'
+            commentBtn.setAttribute('target', 'commentButton');
+            commentBtn.className = 'btn-floating btn-large waves-effect waves-light blue'
             commentBtn.href = '#modal1'
             commentBtn.id = 'commentModalTrigger'
+            let voteUpBtn = document.createElement('a');
+            let voteDownBtn = document.createElement('a');
+            voteUpBtn.className = 'btn-floating btn-large waves-effect waves-light green';
+            voteDownBtn.className = 'btn-floating btn-large waves-effect waves-light red';
+            voteUpBtn.id = 'voteUpBtn';
+            voteDownBtn.id = 'voteDownBtn';
             //now lets add the values to our created elements with the relevant data from our ajax call. 
             articleTextTitle.innerText = savedArticleJSON[i].savedTitle;
             sourceHeading.innerText = savedArticleJSON[i].savedPublication
@@ -37,29 +44,17 @@ document.addEventListener('DOMContentLoaded', function () {
             articleText.append(articleTextTitle);
             articleText.append(sourceHeading);
             articleLinkArea.append(articleLink);
+            articleLinkArea.append(voteUpBtn);
+            articleLinkArea.append(voteDownBtn);
             newCard.append(commentBtn);
             container.append(newCard);
         }
 
-         
-        //create an array of our all saved articles 
-        const savedArticlesArray = document.getElementsByClassName('card');
-        //create ul with materialize class for dropdowns
-        const collapsibleUl = document.createElement('ul');
-        collapsibleUl.className = 'collapsible';
-        commentPosts = document.createElement('li');
-        collapsibleUl.append(commentPosts);
-        collapsibleHeader = document.createElement('div');
-        collapsibleHeader.innerText = 'View Comments'
-        collapsibleHeader.className = 'collapsible-header';
-        commentPosts.append(collapsibleHeader);
-        collapsibleBody = document.createElement('div');
-        collapsibleBody.className = 'collapsible-body';
-        commentPosts.append(collapsibleBody);
-       
+        
    
 
-        
+        savedArticlesArray = document.getElementsByClassName('card');
+
         // const commentSection = document.createElement('li');
         // collapsibleUl.append(commentSection);
 
@@ -72,16 +67,35 @@ document.addEventListener('DOMContentLoaded', function () {
             fetch('/getSavedComments/'+articleIdForComment).then((response) => {
                 return response.json();
             }).then((commentsForArticle) => {
+
+                collapsibleUl = document.createElement('ul');
+                collapsibleUl.className = 'collapsible';
+                commentPosts = document.createElement('li');
+                collapsibleHeader = document.createElement('div');
+                collapsibleHeader.innerText = 'View Comments'
+                collapsibleHeader.className = 'collapsible-header';
+                collapsibleUl.append(commentPosts);
+                commentPosts.append(collapsibleHeader);
+
                 //now lets build our comment post in here
                 console.log(commentsForArticle);
                 //find the matching article container by finding the only data-id with the matching data-id attribute
                 articleContainer = document.querySelector(`[data-id='${articleIdForComment}']`);
                 //if the call to get comments returns a array any longer than nothing make a drop down with the comments
                 if(commentsForArticle.length > 0){
+                    
                 //a nested loop required for getting each comment in the array and creating posts for each one. 
                 Array.from(commentsForArticle).forEach((comment)=>{
+                
+                    //create DOM elements 
+           
+                    collapsibleBody = document.createElement('div');
+                    collapsibleBody.className = 'collapsible-body';
+                    commentPosts.append(collapsibleBody);
+                    
                     newRow = document.createElement('div');
                     newRow.className = 'row';
+                    //builds the comment. 
                     commentHTML = `
                     <div class="col s12">
                       <div class="card">
@@ -96,11 +110,15 @@ document.addEventListener('DOMContentLoaded', function () {
                       </div>
                     </div>`
                    newRow.innerHTML = commentHTML;
-                   collapsibleBody.append(newRow);                   
+                   collapsibleBody.append(newRow);                
+                   
+                   //initialize the dropdowns
+                   
                 });     
-                    articleContainer.firstChild.append(collapsibleUl);             
-                    const elem = document.querySelector('.collapsible');
-                    let instance = M.Collapsible.init(elem);
+                articleContainer.firstChild.append(collapsibleUl);             
+                const elems = document.querySelectorAll('.collapsible');
+                let instance = M.Collapsible.init(elems);
+            
                  }else{
                     console.log('article with no comment');
                 }
@@ -115,7 +133,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
         //function that loops through the comment buttons array. adds click events to create cookie for ajax call and triggers modal to open for the modoal. 
-        const commentBtns = document.getElementsByClassName('btn-floating');
+        const commentBtns = document.querySelectorAll('[target=commentButton]');
         Array.from(commentBtns).forEach((commentBtn) => {
             console.log(commentBtn.parentElement);
             commentBtn.addEventListener('click', () => {
