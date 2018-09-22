@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', function () {
     fetch('/getSavedArticles').then((response) => {
         return response.json();
     }).then((savedArticleJSON) => {
+        console.log(savedArticleJSON);
         //target container that we will append to when we finsish the loop
         const container = document.getElementById('savedArticleContainer');
         //used a for loop here, instead for a forEach. Not sure why i've seen debates online suggusting for loops are faster operations than forEach. For now this solution will do.

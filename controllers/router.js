@@ -85,13 +85,17 @@ router.get('/savedArticles', middleware.requiresLogin, (req, res)=>{
 });
 
 router.get('/userVotes', middleware.requiresLogin, (req, res)=>{
-    database.Votes.find({}).then(function (result){
-        res.json(result);
-    }).catch(function(err){
-        console.log(err);
-        res.json(err);
-    })
+    database.SavedArticles.findByIdAndUpdate
+    
+    // database.Votes.find({}).then(function (result){
+    //     res.json(result);
+    // }).catch(function(err){
+    //     console.log(err);
+    //     res.json(err);
+    // });
 });
+
+
 
 
 

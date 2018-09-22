@@ -7,7 +7,7 @@ findArticleId = (ele) => {
     let savedArticleDescription = ele.parentNode.parentNode.childNodes[0].childNodes[1].innerText;
     let savedArticleUrl = ele.parentNode.parentNode.childNodes[1].childNodes[0].href;
     let savedSourcePublication = ele.parentNode.parentNode.childNodes[1].childNodes[2].innerText
-    let data = {savedTitle: savedArticleTitle, savedDescription: savedArticleDescription, savedUrl: savedArticleUrl, savedPublication: savedSourcePublication, savedUser: savedUsername}
+    let data = {savedTitle: savedArticleTitle, savedDescription: savedArticleDescription, savedUrl: savedArticleUrl, savedPublication: savedSourcePublication, savedUser: savedUsername, votes: 0}
     // if(savedUsername == ''){
     //     getUserData();
     // }else{   

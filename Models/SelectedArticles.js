@@ -20,15 +20,10 @@ const SavedArticleSchema = new Schema({
         type: String,
         required: true
     },
-    comments:{
-        type: Schema.Types.ObjectId,
-        ref: "Comments",
-        boolean: false
-    },
     votes:{
-        type: Schema.Types.ObjectId,
-        ref: "Vote",
-        boolean: true
+        type: Number, 
+        default: 0,
+        required: true
     }
 },{
     versionKey: false
