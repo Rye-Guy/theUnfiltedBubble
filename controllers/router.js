@@ -4,7 +4,6 @@ const database = require('../Models/index');
 const LocalStorage = require('node-localstorage').LocalStorage;
 localStorage = new LocalStorage('./clientStoredSearch');
 
-
 const middleware = {
     requiresLogin: (req, res, next) =>{
         if(req.session && req.session.userId){
@@ -85,6 +84,16 @@ router.get('/savedArticles', middleware.requiresLogin, (req, res)=>{
     return res.render('savedArticles');
 });
 
+router.get('/userVotes', middleware.requiresLogin, (req, res)=>{
+    database.Votes.find({}).then(function (result){
+        res.json(result);
+    }).catch(function(err){
+        console.log(err);
+        res.json(err);
+    })
+});
+
+
 
 router.get('/getSavedComments/:id', function(req, res){ 
     console.log(req.params);
@@ -106,6 +115,8 @@ router.get('/getSavedComments/:id', function(req, res){
     
 });
 
+
+
 const Comment = database.Comments;
 
 router.post('/savedArticles/:id', middleware.requiresLogin, (req, res)=>{
@@ -125,6 +136,8 @@ router.post('/savedArticles/:id', middleware.requiresLogin, (req, res)=>{
         }
     })
 });
+
+
 
 
 

@@ -28,7 +28,7 @@ const SavedArticleSchema = new Schema({
     votes:{
         type: Schema.Types.ObjectId,
         ref: "Vote",
-        boolean: false
+        boolean: true
     }
 },{
     versionKey: false

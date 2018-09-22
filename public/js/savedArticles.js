@@ -88,7 +88,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 Array.from(commentsForArticle).forEach((comment)=>{
                 
                     //create DOM elements 
-           
                     collapsibleBody = document.createElement('div');
                     collapsibleBody.className = 'collapsible-body';
                     commentPosts.append(collapsibleBody);
