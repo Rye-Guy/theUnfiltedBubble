@@ -84,8 +84,25 @@ router.get('/savedArticles', middleware.requiresLogin, (req, res)=>{
     return res.render('savedArticles');
 });
 
-router.get('/userVotes', middleware.requiresLogin, (req, res)=>{
-    database.SavedArticles.findByIdAndUpdate
+router.post('/userVotes/:id', middleware.requiresLogin, (req, res)=>{
+    database.SavedArticles.findByIdAndUpdate({'_id': req.body._id},{'votes': req.body.votes}).exec((err, doc)=>{
+        if(err){
+            res.send(err);
+        }else{
+            res.send(doc);
+        }
+   });
+
+});
+
+// router.get('/userVotes', middleware.requiresLogin, (req, res)=>{
+//     database.SavedArticles.findByIdAndUpdate({'_id': req.params.id},{'vote': parseInt(req.params.vote)}).exec((err, doc)=>{
+//          if(err){
+//              res.send(err);
+//          }else{
+//              res.send(doc);
+//          }
+// });
     
     // database.Votes.find({}).then(function (result){
     //     res.json(result);
@@ -93,7 +110,7 @@ router.get('/userVotes', middleware.requiresLogin, (req, res)=>{
     //     console.log(err);
     //     res.json(err);
     // });
-});
+// });
 
 
 
@@ -107,15 +124,6 @@ router.get('/getSavedComments/:id', function(req, res){
         console.log(err);
         res.json(err);
     });
-
-    // console.log(req.params);
-    // database.SavedArticles.find({ _id : req.params["id"] }).populate("comments").then(function(result){
-    //     res.json(result);
-    // }).catch(function(err){
-    //     console.log(err);
-    //     res.json(err);
-    // });
-
     
 });
 
@@ -140,10 +148,6 @@ router.post('/savedArticles/:id', middleware.requiresLogin, (req, res)=>{
         }
     })
 });
-
-
-
-
 
 router.get('/getUser', middleware.requiresLogin, (req, res) =>{
     res.json(req.session.usernameLogged);
@@ -216,7 +220,7 @@ router.post('/search', middleware.requiresLogin, (req, res, next)=>{
 
 router.get('/logout', middleware.requiresLogin, (req, res, next) =>{
     req.session.destroy((err) =>{
-        if(err){
+        if(esrr){
             next(err);
         }else{
             return res.redirect('/');

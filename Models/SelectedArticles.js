@@ -21,7 +21,7 @@ const SavedArticleSchema = new Schema({
         required: true
     },
     votes:{
-        type: Number, 
+        type: String, 
         default: 0,
         required: true
     }

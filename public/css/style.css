@@ -17,3 +17,9 @@
     background-size: 58px 37px;
     background-position-y: 8px;
 }
+
+.badge{
+    position: absolute;
+    top: 0;
+    right: 0;
+}

@@ -35,12 +35,17 @@ document.addEventListener('DOMContentLoaded', function () {
             voteDownBtn.className = 'btn-floating btn-large waves-effect waves-light red';
             voteUpBtn.id = 'voteUpBtn';
             voteDownBtn.id = 'voteDownBtn';
+            votesDisplay = document.createElement('span');
+            votesDisplay.className = 'badge';
             //now lets add the values to our created elements with the relevant data from our ajax call. 
             articleTextTitle.innerText = savedArticleJSON[i].savedTitle;
             sourceHeading.innerText = savedArticleJSON[i].savedPublication
             articleLink.href = savedArticleJSON[i].savedUrl;
+            votesDisplay.innerText = savedArticleJSON[i].votes;
             //append all this stuff that we have been building 
             newCard.append(articleText);
+            articleText.prepend(votesDisplay);
+            newCard.append(votesDisplay);
             newCard.append(articleLinkArea);
             articleText.append(articleTextTitle);
             articleText.append(sourceHeading);
@@ -51,11 +56,8 @@ document.addEventListener('DOMContentLoaded', function () {
             container.append(newCard);
         }
 
-        
-   
 
         savedArticlesArray = document.getElementsByClassName('card');
-
         // const commentSection = document.createElement('li');
         // collapsibleUl.append(commentSection);
 
@@ -111,9 +113,6 @@ document.addEventListener('DOMContentLoaded', function () {
                     </div>`
                    newRow.innerHTML = commentHTML;
                    collapsibleBody.append(newRow);                
-                   
-                   //initialize the dropdowns
-                   
                 });     
                 articleContainer.firstChild.append(collapsibleUl);             
                 const elems = document.querySelectorAll('.collapsible');
@@ -124,6 +123,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
             });
         });
+
+
     
         //target the comment btn in the modal
         const commentPostBtn = document.getElementById('postCommentBtn');
@@ -169,8 +170,23 @@ document.addEventListener('DOMContentLoaded', function () {
                 .catch(error => console.error('Error:', error));
         }
 
-
-
+        makeVote = () => {
+            data = {
+                _id: docCookies.getItem('articleID'),
+                votes: 4
+            }
+            fetch('userVotes/'+docCookies.getItem('articleID'),{
+                method: 'POST',
+                body: JSON.stringify(data),
+                headers:{
+                    'Content-Type': 'application/json',
+                }
+            }).then(res => res.json())
+            //log responses
+            .then(response => console.log('Success:', JSON.stringify(response)))
+            .catch(error => console.error('Error:', error));
+        }
+        makeVote();
        
             // let instances = M.Modal.init(elems);    
         commentPostBtn.addEventListener('click', createCommentPost);

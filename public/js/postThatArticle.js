@@ -26,6 +26,3 @@ Array.from(article).forEach((ele) =>{
     btn = ele.childNodes[1].childNodes[3];
     btn.addEventListener('click', findArticleId);
 });
-
-
-// getUserData();
