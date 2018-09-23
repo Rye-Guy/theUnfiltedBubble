@@ -24,7 +24,8 @@ function buildArticlesFromJSON(route){
             let br = document.createElement('br');
             let floatingActionButton = document.createElement('a');
             floatingActionButton.className = 'btn-floating btn-large waves-effect waves-light red';
-            floatingActionButton.setAttribute('onclick', 'findArticleId(this)')
+            floatingActionButton.setAttribute('onclick', 'findArticleId(this)');
+            floatingActionButton.setAttribute('onclick', 'M.toast({html: "Article Saved!"})');
             floatingActionButton.id = 'saveArticle';
             publicationString.innerText = 'Source: ' + articleJSONData[i].sourcePublication;
             articleTextTitle.innerText = articleJSONData[i].articleTitle;

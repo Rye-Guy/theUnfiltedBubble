@@ -96,26 +96,6 @@ router.post('/userVotes/:id', middleware.requiresLogin, (req, res)=>{
 
 });
 
-router.get('/userVotes', middleware.requiresLogin, (req, res)=>{
-    database.SavedArticles.findByIdAndUpdate({'_id': req.params.id},{'vote': parseInt(req.params.votes)}).exec((err, doc)=>{
-         if(err){
-             res.send(err);
-         }else{
-             res.send(doc);
-         }
-});
-    
-    // database.Votes.find({}).then(function (result){
-    //     res.json(result);
-    // }).catch(function(err){
-    //     console.log(err);
-    //     res.json(err);
-    // });
-});
-
-
-
-
 
 router.get('/getSavedComments/:id', function(req, res){ 
     console.log(req.params);
@@ -127,10 +107,6 @@ router.get('/getSavedComments/:id', function(req, res){
     });
     
 });
-
-
-
-const Comment = database.Comments;
 
 router.post('/savedArticles/:id', middleware.requiresLogin, (req, res)=>{
     let newComment = new Comment(req.body);
@@ -176,8 +152,6 @@ router.get("/getArticles/:id", (req, res) =>{
 const SavedArticles = database.SavedArticles;
 router.post('/getArticles/:id', (req, res) =>{
     let newArticle = new SavedArticles(req.body)
-    console.log(req.params);
-
     SavedArticles.create(newArticle, (err, savedArticle) =>{
         if(err){
             res.send(err);
@@ -188,7 +162,7 @@ router.post('/getArticles/:id', (req, res) =>{
 });
 
 router.get('/getSavedArticles', middleware.requiresLogin, (req, res, next) =>{
-    database.SavedArticles.find({}).then((savedArticles) =>{
+    database.SavedArticles.find({}).sort({'votes': -1}).then((savedArticles) =>{
         res.json(savedArticles);
     }).catch((err) =>{
         res.send(err);
@@ -200,18 +174,12 @@ router.get('/search', middleware.requiresLogin, (req, res, next)=>{
 }); 
 
 router.post('/search', middleware.requiresLogin, (req, res, next)=>{
-    // database.Articles.createIndex({ articleTitle: "text" });
-    console.log(req.body);
     if(req.body.searchInput){
     database.Articles.find({$text: {$search: req.body.searchInput}}).then((result)=>{
         localStorage.setItem('searchData'+req.session.usernameLogged, JSON.stringify(result));
         let currentSearchResults = localStorage.getItem('searchData'+req.session.usernameLogged);
         console.log(currentSearchResults);
         res.render('searchResults');
-        // localStorage.setItem('searchResultsOjb', result);
-        // let currentSearchResults = localStorage.getItem('searchResultsOjb');
-        // console.log(JSON.parse(currentSearchResults));
-        // res.redirect('/');
     }).catch(function(err){
         res.json(err);
     });

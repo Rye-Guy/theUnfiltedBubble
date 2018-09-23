@@ -191,8 +191,8 @@ document.addEventListener('DOMContentLoaded', function () {
         
 
         voteDownBtn = document.querySelectorAll('#voteDownBtn');
-        console.log(voteDownBtn);
         Array.from(voteDownBtn).forEach((btn)=>{
+            console.log(document.location);
             btn.addEventListener('click', () => {
                 articleId = btn.parentElement.parentElement.getAttribute('data-id');
                 makeVote(articleId, (parseInt(btn.parentElement.parentElement.childNodes[1].innerText) + -1));
@@ -206,7 +206,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 makeVote(articleId, (parseInt(btn.parentElement.parentElement.childNodes[1].innerText) + 1));
             });
         });
-        console.log(voteUpBtn);
        
             // let instances = M.Modal.init(elems);    
         commentPostBtn.addEventListener('click', createCommentPost);
