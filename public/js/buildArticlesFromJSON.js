@@ -8,7 +8,7 @@ function buildArticlesFromJSON(route){
         for (i = 0; i < articleJSONData.length; i++) {
             let newCard = document.createElement('div');
             newCard.id = 'articleEntry';
-            newCard.className = 'card blue-grey darken-1 card-width';
+            newCard.className = 'card card-width';
             newCard.setAttribute('data-id', articleJSONData[i]._id);
             // newCard.setAttribute('onclick', 'findArticleId(this)')
             let articleText = document.createElement('div');
@@ -20,10 +20,12 @@ function buildArticlesFromJSON(route){
             articleLinkArea.className = 'card-action';
             let articleLink = document.createElement('a');
             articleLink.innerText = 'Article Link';
+            articleLink.className = 'articleLink btn';
             let publicationString = document.createElement('a') 
+            publicationString.className = 'publicationName'
             let br = document.createElement('br');
             let floatingActionButton = document.createElement('a');
-            floatingActionButton.className = 'btn-floating btn-large waves-effect waves-light red';
+            floatingActionButton.className = 'btn-floating btn-large waves-effect waves-light saveArticleBtn';
             floatingActionButton.setAttribute('onclick', 'findArticleId(this)');
             floatingActionButton.setAttribute('onclick', 'M.toast({html: "Article Saved!"})');
             floatingActionButton.id = 'saveArticle';

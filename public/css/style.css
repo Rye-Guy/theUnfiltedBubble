@@ -21,6 +21,12 @@ nav{
     color:white;
 }
 
+
+.row .input-field input:focus {
+    border-bottom: 2px solid#205788!important;
+    box-shadow: 0 1px 0 0 #205788 !important
+}
+
 .btn{
     background-color: #205788;
 }
@@ -28,6 +34,31 @@ nav{
 .btn:hover{
     background-color: #5886af;
 }
+
+#articleEntry{
+    background-color: #205788 !important;
+}
+
+.articleLink{
+    color: black !important;
+    background-color: #84ABCE;
+    margin-bottom: 12px
+}
+
+.publicationName{
+    color: #eac77d !important;
+
+}
+
+.saveArticleBtn{
+    background-color: #b47b44;
+}
+
+.saveArticleBtn:hover{
+    background-color: #eac77d;
+}
+
+
 
 #articlesContainer{
     margin-top: 22px;
@@ -41,7 +72,7 @@ nav{
 }
 
 .btn-floating.btn-large{
-    top: -70px;
+    top: -45px;
     float: right;
     background-image: url(../images/icons/save-file-option.svg);
     background-repeat: no-repeat;
