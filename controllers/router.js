@@ -85,7 +85,8 @@ router.get('/savedArticles', middleware.requiresLogin, (req, res)=>{
 });
 
 router.post('/userVotes/:id', middleware.requiresLogin, (req, res)=>{
-    database.SavedArticles.findByIdAndUpdate({'_id': req.body._id},{'votes': req.body.votes}).exec((err, doc)=>{
+    console.log(req.body);
+    database.SavedArticles.findByIdAndUpdate({'_id': req.body._id},{'votes': parseInt(req.body.votes)}).exec((err, doc)=>{
         if(err){
             res.send(err);
         }else{
@@ -95,14 +96,14 @@ router.post('/userVotes/:id', middleware.requiresLogin, (req, res)=>{
 
 });
 
-// router.get('/userVotes', middleware.requiresLogin, (req, res)=>{
-//     database.SavedArticles.findByIdAndUpdate({'_id': req.params.id},{'vote': parseInt(req.params.vote)}).exec((err, doc)=>{
-//          if(err){
-//              res.send(err);
-//          }else{
-//              res.send(doc);
-//          }
-// });
+router.get('/userVotes', middleware.requiresLogin, (req, res)=>{
+    database.SavedArticles.findByIdAndUpdate({'_id': req.params.id},{'vote': parseInt(req.params.votes)}).exec((err, doc)=>{
+         if(err){
+             res.send(err);
+         }else{
+             res.send(doc);
+         }
+});
     
     // database.Votes.find({}).then(function (result){
     //     res.json(result);
@@ -110,7 +111,7 @@ router.post('/userVotes/:id', middleware.requiresLogin, (req, res)=>{
     //     console.log(err);
     //     res.json(err);
     // });
-// });
+});
 
 
 

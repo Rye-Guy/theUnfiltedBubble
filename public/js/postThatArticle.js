@@ -18,8 +18,12 @@ findArticleId = (ele) => {
 }).then(res => res.json())
     .then(response => console.log('Success:', JSON.stringify(response)))
     .catch(error => console.error('Error:', error));
+
+}
+createVote = () =>{
     
 }
+
 
 
 Array.from(article).forEach((ele) =>{

@@ -2,9 +2,13 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const UserVotesSchema = new Schema({
-    username:{
+    articleId:{
         type: String,
         required: true,
+        unique: true
+    },
+    username:{
+        type: String,
         unique: true
     },
     votes:{

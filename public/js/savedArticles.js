@@ -65,7 +65,6 @@ document.addEventListener('DOMContentLoaded', function () {
         Array.from(savedArticlesArray).forEach((savedArticleItem)=>{
             //get the data-id for current index in our loop
             let articleIdForComment = savedArticleItem.getAttribute('data-id');
-            console.log(articleIdForComment);
             //ajax call to get the article comments using the Id as a filter to only get related articles. 
             fetch('/getSavedComments/'+articleIdForComment).then((response) => {
                 return response.json();
@@ -170,11 +169,13 @@ document.addEventListener('DOMContentLoaded', function () {
                 .catch(error => console.error('Error:', error));
         }
 
-        makeVote = () => {
+        makeVote = (articleId, userInputVote) => {
+
             data = {
-                _id: docCookies.getItem('articleID'),
-                votes: 4
+                _id: articleId,
+                votes: userInputVote
             }
+            console.log(data);
             fetch('userVotes/'+docCookies.getItem('articleID'),{
                 method: 'POST',
                 body: JSON.stringify(data),
@@ -186,7 +187,26 @@ document.addEventListener('DOMContentLoaded', function () {
             .then(response => console.log('Success:', JSON.stringify(response)))
             .catch(error => console.error('Error:', error));
         }
-        makeVote();
+    
+        
+
+        voteDownBtn = document.querySelectorAll('#voteDownBtn');
+        console.log(voteDownBtn);
+        Array.from(voteDownBtn).forEach((btn)=>{
+            btn.addEventListener('click', () => {
+                articleId = btn.parentElement.parentElement.getAttribute('data-id');
+                makeVote(articleId, (parseInt(btn.parentElement.parentElement.childNodes[1].innerText) + -1));
+;            });
+        });
+
+        voteUpBtn = document.querySelectorAll('#voteUpBtn');
+        Array.from(voteUpBtn).forEach((btn)=>{
+            btn.addEventListener('click', () => {
+                articleId = btn.parentElement.parentElement.getAttribute('data-id');
+                makeVote(articleId, (parseInt(btn.parentElement.parentElement.childNodes[1].innerText) + 1));
+            });
+        });
+        console.log(voteUpBtn);
        
             // let instances = M.Modal.init(elems);    
         commentPostBtn.addEventListener('click', createCommentPost);
