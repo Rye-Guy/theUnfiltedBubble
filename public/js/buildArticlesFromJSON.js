@@ -20,7 +20,8 @@ function buildArticlesFromJSON(route){
             articleLinkArea.className = 'card-action';
             let articleLink = document.createElement('a');
             articleLink.innerText = 'Article Link';
-            articleLink.className = 'articleLink btn';
+            articleLink.className = 'articleLink btn waves-effect waves-light';
+            articleLink.setAttribute('target', '_blank');  
             let publicationString = document.createElement('a') 
             publicationString.className = 'publicationName'
             let br = document.createElement('br');

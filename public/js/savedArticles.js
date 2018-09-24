@@ -11,12 +11,14 @@ document.addEventListener('DOMContentLoaded', function () {
         for (i = 0; i < savedArticleJSON.length; i++) {
             //create our elements and add the materialize classes to them
             let newCard = document.createElement('div');
-            newCard.id = 'articleEntry';
+            newCard.id = 'savedArticle';
             newCard.className = 'card';
             //!important to get data-id attribute for targeting these these elements later. 
             newCard.setAttribute('data-id', savedArticleJSON[i]._id);
             let articleText = document.createElement('div');
             articleText.className = 'card-content';
+            let btnArea = document.createElement('div');
+            btnArea.className = 'btnArea';
             let articleTextTitle = document.createElement('span');
             articleTextTitle.className = 'card-title';
             let articleLinkArea = document.createElement('div');
@@ -28,7 +30,7 @@ document.addEventListener('DOMContentLoaded', function () {
             commentBtn.setAttribute('target', 'commentButton');
             commentBtn.className = 'btn-floating btn-large waves-effect waves-light blue'
             commentBtn.href = '#modal1'
-            commentBtn.id = 'commentModalTrigger'
+            commentBtn.id = 'commentButton'
             let voteUpBtn = document.createElement('a');
             let voteDownBtn = document.createElement('a');
             voteUpBtn.className = 'btn-floating btn-large waves-effect waves-light green';
@@ -50,9 +52,10 @@ document.addEventListener('DOMContentLoaded', function () {
             articleText.append(articleTextTitle);
             articleText.append(sourceHeading);
             articleLinkArea.append(articleLink);
-            articleLinkArea.append(voteUpBtn);
-            articleLinkArea.append(voteDownBtn);
-            newCard.append(commentBtn);
+            articleText.append(btnArea)
+            btnArea.append(voteUpBtn);
+            btnArea.append(voteDownBtn);
+            btnArea.append(commentBtn);
             container.append(newCard);
         }
 
@@ -71,7 +74,7 @@ document.addEventListener('DOMContentLoaded', function () {
             }).then((commentsForArticle) => {
 
                 collapsibleUl = document.createElement('ul');
-                collapsibleUl.className = 'collapsible';
+                collapsibleUl.className = 'collapsible viewCommentsBtn';
                 commentPosts = document.createElement('li');
                 collapsibleHeader = document.createElement('div');
                 collapsibleHeader.innerText = 'View Comments'
@@ -192,18 +195,17 @@ document.addEventListener('DOMContentLoaded', function () {
 
         voteDownBtn = document.querySelectorAll('#voteDownBtn');
         Array.from(voteDownBtn).forEach((btn)=>{
-            console.log(document.location);
             btn.addEventListener('click', () => {
-                articleId = btn.parentElement.parentElement.getAttribute('data-id');
-                makeVote(articleId, (parseInt(btn.parentElement.parentElement.childNodes[1].innerText) + -1));
+                articleId = btn.parentElement.parentElement.parentElement.getAttribute('data-id');
+                makeVote(articleId, (parseInt(btn.parentElement.parentElement.parentElement.childNodes[1].innerText) + -1));
 ;            });
         });
 
         voteUpBtn = document.querySelectorAll('#voteUpBtn');
         Array.from(voteUpBtn).forEach((btn)=>{
             btn.addEventListener('click', () => {
-                articleId = btn.parentElement.parentElement.getAttribute('data-id');
-                makeVote(articleId, (parseInt(btn.parentElement.parentElement.childNodes[1].innerText) + 1));
+                articleId = btn.parentElement.parentElement.parentElement.getAttribute('data-id');
+                makeVote(articleId, (parseInt(btn.parentElement.parentElement.parentElement.childNodes[1].innerText) + 1));
             });
         });
        

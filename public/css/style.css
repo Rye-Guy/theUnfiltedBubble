@@ -72,12 +72,42 @@ nav{
 }
 
 .btn-floating.btn-large{
-    top: -45px;
-    float: right;
     background-image: url(../images/icons/save-file-option.svg);
     background-repeat: no-repeat;
     background-size: 58px 37px;
     background-position-y: 8px;
+}
+
+#commentButton{
+    background-image: url(../images/icons/comment-white-oval-bubble.svg);
+    background-repeat: no-repeat;
+    background-size: 59px 42px;
+    background-position-y: 6px;
+}
+
+#voteUpBtn{
+    background-image: url(../images/icons/thumbs-up.svg);
+    background-repeat: no-repeat;
+
+}
+
+#voteDownBtn{
+    background-image: url(../images/icons/thumb-down.svg);
+    background-repeat: no-repeat;
+    
+}
+
+.viewCommentsBtn{
+    margin-top: 80px;
+}
+
+.btnArea{
+    display: flex;
+    justify-content: space-around;
+    width: 250px;
+    float: right;
+    flex-direction: row-reverse;
+    margin-top: -8px;
 }
 
 .badge{
@@ -85,4 +115,5 @@ nav{
     top: 0;
     right: 0;
 }
+
 
