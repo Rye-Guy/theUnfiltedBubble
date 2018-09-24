@@ -17,22 +17,17 @@ nav{
     margin-top: 20px;
 }
 
-#searchBtn{
-    color:white;
-}
-
-
 .row .input-field input:focus {
-    border-bottom: 2px solid #205788 !important;
-    box-shadow: 0 1px 0 0 #205788 !important
+    border-bottom: 2px solid #FF8300 !important;
+    box-shadow: 0 1px 0 0 #FF8300 !important;
 }
 
 .btn{
-    background-color: #205788;
+    background-color: #FF8300;
 }
 
 .btn:hover{
-    background-color: #5886af;
+    background-color: #FFA546;
 }
 
 #articleEntry{
@@ -41,29 +36,48 @@ nav{
 
 .articleLink{
     color: black !important;
-    background-color: #84ABCE;
+    background-color: #FF8300;
     margin-bottom: 12px
 }
 
+
+
 #savedArticleContent{
-    background-color: #84ABCE;
+    background-color: #B3CFE7;
+    transition: ease all .5s;
 }
 
 #savedArticleLinkArea{
     background-color: #E2EEF9;
 }
 
+#savedArticleContent:hover{
+    background-color: #E2EEF9;
+}
+
+.btn-floating{
+    transition: ease all .5s; 
+}
+
+.btn-floating:hover{
+    transform: scale(1.08);
+}
+.btnArea:hover .btn-floating:not(:hover){
+    transform: scale(.94);
+}
+
 .publicationName{
-    color: #eac77d !important;
+    color: white !important;
+    font-weight: bold;
 
 }
 
 .saveArticleBtn{
-    background-color: #b47b44;
+    background-color: #FF8300;
 }
 
 .saveArticleBtn:hover{
-    background-color: #eac77d;
+    background-color: #FFA546;
 }
 
 #savedArticleLink{
@@ -119,7 +133,21 @@ nav{
 
 .viewCommentsBtn{
     margin-top: 80px;
+    transition: ease all .5s;
+    border: none;
 }
+.viewCommentsBtn:hover{
+    transform: scale(1.05);
+}
+.viewCommentsBtn > li > .collapsible-header{
+    background-color: #FFBB69;
+    border: none;
+}
+
+.collapsible-header:hover{
+    background-color: #FFAB46;
+}
+
 .collapsible-body{
     padding: 0;
     background-color: white;
@@ -142,6 +170,14 @@ nav{
     position: absolute;
     top: 0;
     right: 0;
+}
+
+span.badge{
+    color: black;
+    height: 28px;
+    line-height: 28px;
+    font-size: 24px;
+    min-width: 4rem;
 }
 
 

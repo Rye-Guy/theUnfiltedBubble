@@ -42,6 +42,7 @@ document.addEventListener('DOMContentLoaded', function () {
             voteDownBtn.id = 'voteDownBtn';
             votesDisplay = document.createElement('span');
             votesDisplay.className = 'badge';
+        
             //now lets add the values to our created elements with the relevant data from our ajax call. 
             articleTextTitle.innerText = savedArticleJSON[i].savedTitle;
             sourceHeading.innerText = savedArticleJSON[i].savedPublication
@@ -60,7 +61,19 @@ document.addEventListener('DOMContentLoaded', function () {
             btnArea.append(voteDownBtn);
             btnArea.append(commentBtn);
             container.append(newCard);
+        
         }
+        allVotes = document.querySelectorAll('.badge');
+        console.log(allVotes);
+        Array.from(allVotes).forEach((vote)=>{
+            if(parseInt(vote.innerText) < 0){
+                vote.style.backgroundColor = '#ef5350'
+            }else if(parseInt(vote.innerText) > 0){
+                vote.style.backgroundColor = '#66bb6a'
+            }else{
+                vote.style.backgroundColor = '#bdbdbd'
+            }
+        })        
 
 
         savedArticlesArray = document.getElementsByClassName('card');
