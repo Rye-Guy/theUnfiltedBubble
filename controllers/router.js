@@ -107,7 +107,7 @@ router.get('/getSavedComments/:id', function(req, res){
     });
     
 });
-
+Comment = database.Comments;
 router.post('/savedArticles/:id', middleware.requiresLogin, (req, res)=>{
     let newComment = new Comment(req.body);
     newComment.save(function(err, doc){

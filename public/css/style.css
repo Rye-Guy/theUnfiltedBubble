@@ -100,6 +100,13 @@ nav{
 .viewCommentsBtn{
     margin-top: 80px;
 }
+.collapsible-body{
+    padding: 0;
+}
+
+.commentCard{
+    padding: 12px !important;
+}
 
 .btnArea{
     display: flex;

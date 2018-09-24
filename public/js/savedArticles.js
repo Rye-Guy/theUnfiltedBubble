@@ -72,7 +72,6 @@ document.addEventListener('DOMContentLoaded', function () {
             fetch('/getSavedComments/'+articleIdForComment).then((response) => {
                 return response.json();
             }).then((commentsForArticle) => {
-
                 collapsibleUl = document.createElement('ul');
                 collapsibleUl.className = 'collapsible viewCommentsBtn';
                 commentPosts = document.createElement('li');
@@ -81,7 +80,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 collapsibleHeader.className = 'collapsible-header';
                 collapsibleUl.append(commentPosts);
                 commentPosts.append(collapsibleHeader);
-
                 //now lets build our comment post in here
                 console.log(commentsForArticle);
                 //find the matching article container by finding the only data-id with the matching data-id attribute
@@ -102,13 +100,11 @@ document.addEventListener('DOMContentLoaded', function () {
                     //builds the comment. 
                     commentHTML = `
                     <div class="col s12">
-                      <div class="card">
-                          <span class="card-title">User: ${comment.username}</span>
-                        </div>
-                        <div class="card-content">
+                        <div class="card-content commentCard">
+                        <span class="card-title">User: ${comment.username}</span>
                           <p>${comment.body}</p>
                         </div>
-                        <div class="card-action">
+                        <div class="card-action commentCard">
                           <a href="#">${comment.dateOfPost}</a>
                         </div>
                       </div>
@@ -143,7 +139,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 //on comment button press open the modal and use the cookie framework to create a cookie with the selected article id for the post. 
                 let instance = M.Modal.init(elem);
                 instance.open();
-                docCookies.setItem('articleID', commentBtn.parentElement.getAttribute('data-id'));      
+                docCookies.setItem('articleID', commentBtn.parentElement.parentElement.parentElement.getAttribute('data-id'));      
             });
         });
 
@@ -159,6 +155,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 body: commentBody,
                 dateOfPost: new Date()
             }
+            console.log(data);
             //ajax makes a post request sets headers and inserts the data
             fetch('/savedArticles/'+docCookies.getItem('articleID'), {
                     method: 'POST',
