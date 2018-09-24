@@ -109,6 +109,10 @@ document.addEventListener('DOMContentLoaded', function () {
                     viewCommentsBtn = document.createElement('a');
                     viewCommentsBtn.className = 'btn waves-effect waves-light activator';
                     viewCommentsBtn.innerText = 'Revel Comments';
+                    closeBtn = document.createElement('span');
+                    closeBtn.className = 'card-title closeBtn';
+                    closeBtn.id = 'closeBtn';
+                    cardReveal.append(closeBtn);
                 //a nested loop required for getting each comment in the array and creating posts for each one. 
                 Array.from(commentsForArticle).forEach((comment)=>{
 

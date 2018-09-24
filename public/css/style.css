@@ -140,6 +140,17 @@ nav{
     background-repeat: no-repeat;
 }
 
+#closeBtn{
+    background-image: url(../images/icons/close.svg);
+    background-repeat: no-repeat;
+    height: 30px;
+    width: 30px;
+    position: sticky;
+    float: right;
+    z-index: 1;
+    top: 1px;
+}
+
 .viewCommentsBtn{
     margin-top: 80px;
     transition: ease all .5s;
