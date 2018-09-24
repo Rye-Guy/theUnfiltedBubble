@@ -23,7 +23,7 @@ nav{
 
 
 .row .input-field input:focus {
-    border-bottom: 2px solid#205788!important;
+    border-bottom: 2px solid #205788 !important;
     box-shadow: 0 1px 0 0 #205788 !important
 }
 
@@ -45,6 +45,14 @@ nav{
     margin-bottom: 12px
 }
 
+#savedArticleContent{
+    background-color: #84ABCE;
+}
+
+#savedArticleLinkArea{
+    background-color: #E2EEF9;
+}
+
 .publicationName{
     color: #eac77d !important;
 
@@ -58,6 +66,14 @@ nav{
     background-color: #eac77d;
 }
 
+#savedArticleLink{
+    color: black;
+}
+
+#savedArticleLink:hover{
+    color: #b47b44;
+}
+
 
 
 #articlesContainer{
@@ -65,6 +81,10 @@ nav{
     display: flex;
     flex-wrap: wrap;
     justify-content: space-evenly;
+}
+
+#commentCard{
+    background-color: white;
 }
 
 .card-width{
@@ -102,6 +122,7 @@ nav{
 }
 .collapsible-body{
     padding: 0;
+    background-color: white;
 }
 
 .commentCard{

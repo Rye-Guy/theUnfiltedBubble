@@ -17,6 +17,7 @@ document.addEventListener('DOMContentLoaded', function () {
             newCard.setAttribute('data-id', savedArticleJSON[i]._id);
             let articleText = document.createElement('div');
             articleText.className = 'card-content';
+            articleText.id = 'savedArticleContent'
             let btnArea = document.createElement('div');
             btnArea.className = 'btnArea';
             let articleTextTitle = document.createElement('span');
@@ -24,7 +25,9 @@ document.addEventListener('DOMContentLoaded', function () {
             let articleLinkArea = document.createElement('div');
             let sourceHeading = document.createElement('h6');
             articleLinkArea.className = 'card-action';
+            articleLinkArea.id = 'savedArticleLinkArea'
             let articleLink = document.createElement('a');
+            articleLink.id = 'savedArticleLink'
             articleLink.innerText = 'Article Link' + ' Shared By: ' + savedArticleJSON[i].savedUser;
             let commentBtn = document.createElement('a');
             commentBtn.setAttribute('target', 'commentButton');
@@ -100,11 +103,11 @@ document.addEventListener('DOMContentLoaded', function () {
                     //builds the comment. 
                     commentHTML = `
                     <div class="col s12">
-                        <div class="card-content commentCard">
+                        <div class="card-content" id="commentCard">
                         <span class="card-title">User: ${comment.username}</span>
                           <p>${comment.body}</p>
                         </div>
-                        <div class="card-action commentCard">
+                        <div class="card-action" id="commentCard">
                           <a href="#">${comment.dateOfPost}</a>
                         </div>
                       </div>

@@ -151,11 +151,14 @@ router.get("/getArticles/:id", (req, res) =>{
 
 const SavedArticles = database.SavedArticles;
 router.post('/getArticles/:id', (req, res) =>{
-    let newArticle = new SavedArticles(req.body)
+    let newArticle = new SavedArticles(req.body);
+    console.log(req.body);
     SavedArticles.create(newArticle, (err, savedArticle) =>{
         if(err){
             res.send(err);
+            console.log(err);
         }else{
+            res.send(savedArticle);
             console.log(savedArticle);
         }
     });
