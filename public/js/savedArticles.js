@@ -25,11 +25,20 @@ document.addEventListener('DOMContentLoaded', function () {
             let articleLinkArea = document.createElement('div');
             let sourceHeading = document.createElement('h6');
             articleLinkArea.className = 'card-action';
-            articleLinkArea.id = 'savedArticleLinkArea'
+            articleLinkArea.id = 'savedArticleLinkArea';
             let articleLink = document.createElement('a');
-            articleLink.id = 'savedArticleLink'
-            articleLink.innerText = 'Article Link' + ' Shared By: ' + savedArticleJSON[i].savedUser;
+            articleLink.className = 'btn waves-effect waves-light activator';
+            articleLink.id = 'savedArticleLink';
+            articleLink.innerText = 'Article Link';
+            articleLink.setAttribute('target', '_blank');
+            let sharedUsernameDisplay = document.createElement('a');
+            sharedUsernameDisplay.innerText = 'Shared by: ' + savedArticleJSON[i].savedUser;
+            sharedUsernameDisplay.id = 'usernameDisplay';
             let commentBtn = document.createElement('a');
+            
+
+        
+
             commentBtn.setAttribute('target', 'commentButton');
             commentBtn.className = 'btn-floating btn-large waves-effect waves-light blue'
             commentBtn.href = '#modal1'
@@ -53,15 +62,16 @@ document.addEventListener('DOMContentLoaded', function () {
             articleText.prepend(votesDisplay);
             newCard.append(votesDisplay);
             newCard.append(articleLinkArea);
+       
             articleText.append(articleTextTitle);
             articleText.append(sourceHeading);
             articleLinkArea.append(articleLink);
+            articleLinkArea.append(sharedUsernameDisplay);
             articleText.append(btnArea)
             btnArea.append(voteUpBtn);
             btnArea.append(voteDownBtn);
             btnArea.append(commentBtn);
             container.append(newCard);
-        
         }
         allVotes = document.querySelectorAll('.badge');
         console.log(allVotes);
@@ -87,38 +97,29 @@ document.addEventListener('DOMContentLoaded', function () {
             //ajax call to get the article comments using the Id as a filter to only get related articles. 
             fetch('/getSavedComments/'+articleIdForComment).then((response) => {
                 return response.json();
-            }).then((commentsForArticle) => {
-                collapsibleUl = document.createElement('ul');
-                collapsibleUl.className = 'collapsible viewCommentsBtn';
-                commentPosts = document.createElement('li');
-                collapsibleHeader = document.createElement('div');
-                collapsibleHeader.innerText = 'View Comments'
-                collapsibleHeader.className = 'collapsible-header';
-                collapsibleUl.append(commentPosts);
-                commentPosts.append(collapsibleHeader);
+            }).then((commentsForArticle) => {  
                 //now lets build our comment post in here
                 console.log(commentsForArticle);
                 //find the matching article container by finding the only data-id with the matching data-id attribute
                 articleContainer = document.querySelector(`[data-id='${articleIdForComment}']`);
                 //if the call to get comments returns a array any longer than nothing make a drop down with the comments
                 if(commentsForArticle.length > 0){
-                    
+                    cardReveal = document.createElement('div');
+                    cardReveal.className = 'card-reveal';
+                    viewCommentsBtn = document.createElement('a');
+                    viewCommentsBtn.className = 'btn waves-effect waves-light activator';
+                    viewCommentsBtn.innerText = 'Revel Comments';
                 //a nested loop required for getting each comment in the array and creating posts for each one. 
                 Array.from(commentsForArticle).forEach((comment)=>{
-                
+
                     //create DOM elements 
-                    collapsibleBody = document.createElement('div');
-                    collapsibleBody.className = 'collapsible-body';
-                    commentPosts.append(collapsibleBody);
-                    
                     newRow = document.createElement('div');
                     newRow.className = 'row';
                     //builds the comment. 
                     commentHTML = `
                     <div class="col s12">
                         <div class="card-content" id="commentCard">
-                        <span class="card-title">User: ${comment.username}</span>
-                          <p>${comment.body}</p>
+                          <p><span class='usernameForComment'>${comment.username} says:</span> ${comment.body}</p>
                         </div>
                         <div class="card-action" id="commentCard">
                           <a href="#">${comment.dateOfPost}</a>
@@ -126,11 +127,12 @@ document.addEventListener('DOMContentLoaded', function () {
                       </div>
                     </div>`
                    newRow.innerHTML = commentHTML;
-                   collapsibleBody.append(newRow);                
+                   cardReveal.append(newRow);                
                 });     
-                articleContainer.firstChild.append(collapsibleUl);             
-                const elems = document.querySelectorAll('.collapsible');
-                let instance = M.Collapsible.init(elems);
+                articleContainer.firstChild.append(viewCommentsBtn);
+                articleContainer.append(cardReveal);             
+                // const elems = document.querySelectorAll('.collapsible');
+                // let instance = M.Collapsible.init(elems);
             
                  }else{
                     console.log('article with no comment');
@@ -165,11 +167,13 @@ document.addEventListener('DOMContentLoaded', function () {
             //get the value of whats currently in the comment modal. 
             commentBody = document.getElementById('commentBody').value;
             //create an object with our values. 
+            timeOfPost = new Date();
+            readableDateString = timeOfPost.toGMTString();
             data = {
                 articleId: docCookies.getItem('articleID'),
                 username: docCookies.getItem('username'),
                 body: commentBody,
-                dateOfPost: new Date()
+                dateOfPost: readableDateString
             }
             console.log(data);
             //ajax makes a post request sets headers and inserts the data

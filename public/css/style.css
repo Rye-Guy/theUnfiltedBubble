@@ -4,7 +4,6 @@
 #eac77d
 #b47b44
 
-
 html{
     background-color: #f4fafd !important;
 }
@@ -18,12 +17,13 @@ nav{
 }
 
 .row .input-field input:focus {
-    border-bottom: 2px solid #FF8300 !important;
+    border-bottom: 1px solid #FF8300 !important;
     box-shadow: 0 1px 0 0 #FF8300 !important;
 }
 
 .btn{
     background-color: #FF8300;
+    color: black;
 }
 
 .btn:hover{
@@ -88,6 +88,17 @@ nav{
     color: #b47b44;
 }
 
+.collapsible-body{
+    transition: ease all .5s; 
+}
+
+.viewCommentsBtn > li > .collapsible-body:hover{
+    transform: scaleX(1.05);
+}
+
+.usernameForComment{
+    font-size: 24px;
+}
 
 
 #articlesContainer{
@@ -122,13 +133,11 @@ nav{
 #voteUpBtn{
     background-image: url(../images/icons/thumbs-up.svg);
     background-repeat: no-repeat;
-
 }
 
 #voteDownBtn{
     background-image: url(../images/icons/thumb-down.svg);
     background-repeat: no-repeat;
-    
 }
 
 .viewCommentsBtn{
@@ -141,11 +150,12 @@ nav{
 }
 .viewCommentsBtn > li > .collapsible-header{
     background-color: #FFBB69;
+    transition: ease all .5s;
     border: none;
 }
 
-.collapsible-header:hover{
-    background-color: #FFAB46;
+.viewCommentsBtn > li > .collapsible-header:hover{
+    background-color: #FF8300;
 }
 
 .collapsible-body{
@@ -163,7 +173,7 @@ nav{
     width: 250px;
     float: right;
     flex-direction: row-reverse;
-    margin-top: -8px;
+    margin-top: -22px;
 }
 
 .badge{
@@ -178,6 +188,13 @@ span.badge{
     line-height: 28px;
     font-size: 24px;
     min-width: 4rem;
+}
+
+#usernameDisplay{
+    float: right;
+    font-size: 26px;
+    color: black;
+    text-transform: inherit;
 }
 
 

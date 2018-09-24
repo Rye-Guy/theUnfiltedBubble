@@ -192,10 +192,10 @@ router.post('/search', middleware.requiresLogin, (req, res, next)=>{
 
 router.get('/logout', middleware.requiresLogin, (req, res, next) =>{
     req.session.destroy((err) =>{
-        if(esrr){
-            next(err);
+        if(err){
+            res.send(err);
         }else{
-            return res.redirect('/');
+            res.redirect('/');
         }
     });
 });
