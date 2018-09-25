@@ -1,6 +1,3 @@
-body = document.querySelector('body');
-body.setAttribute('style', 'background-color: #f4f4fd;');
-
 const usernameContainer = document.getElementById('usernameNavDisplay');
 
 fetch('/getUser').then(function (response) {

@@ -219,6 +219,7 @@ document.addEventListener('DOMContentLoaded', function () {
             btn.addEventListener('click', () => {
                 articleId = btn.parentElement.parentElement.parentElement.getAttribute('data-id');
                 makeVote(articleId, (parseInt(btn.parentElement.parentElement.parentElement.childNodes[1].innerText) + -1));
+                document.location.reload();
 ;            });
         });
 
@@ -227,14 +228,13 @@ document.addEventListener('DOMContentLoaded', function () {
             btn.addEventListener('click', () => {
                 articleId = btn.parentElement.parentElement.parentElement.getAttribute('data-id');
                 makeVote(articleId, (parseInt(btn.parentElement.parentElement.parentElement.childNodes[1].innerText) + 1));
+                document.location.reload();
             });
         });
        
             // let instances = M.Modal.init(elems);    
         commentPostBtn.addEventListener('click', createCommentPost);
     });
-
-
 });
 
 
