@@ -44,6 +44,24 @@ nav{
     margin-bottom: 12px
 }
 
+.login-forms{
+    position: absolute;
+    background-color: #f4f4fd;
+    top: 100px;
+    left: 80px; 
+    transition: ease all 1s;  
+}
+
+
+
+
+/* .show{
+  
+}
+
+.hide{
+   
+} */
 
 
 #savedArticleContent{
@@ -218,6 +236,12 @@ span.badge{
     text-align: right;
 }
 
+#loginForm{
+    position: relative;
+    width: 0%;
+    left: -200px;
+}
+
 /* for smaller than tablet size  */
 @media screen and (max-width: 700px){
     nav .brand-logo.right{
@@ -236,5 +260,29 @@ span.badge{
     .btnArea{
         margin-top: 24px;
         margin-bottom: 26px;
+    }
+}
+
+@keyframes slideIn{
+    from{
+        width: 0%;
+        left: -560px;
+     
+    }
+    to{
+        width: 100%;
+        left: 0; 
+    }
+}
+
+@keyframes slideOut{
+    to{
+        width: 0%;
+        left: -200px;
+
+    }
+    from{
+        width: 100%;
+        left: 0; 
     }
 }
