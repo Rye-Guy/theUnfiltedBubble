@@ -242,6 +242,12 @@ span.badge{
     left: -200px;
 }
 
+#registerForm{
+    position: relative;
+    width: 0%;
+    left: -240px;
+}
+
 /* for smaller than tablet size  */
 @media screen and (max-width: 700px){
     nav .brand-logo.right{
