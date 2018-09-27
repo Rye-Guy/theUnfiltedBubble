@@ -237,15 +237,18 @@ span.badge{
 }
 
 #loginForm{
+ 
     position: relative;
     width: 0%;
     left: -200px;
+    
 }
 
 #registerForm{
     position: relative;
     width: 0%;
     left: -240px;
+    top: -330px;
 }
 
 /* for smaller than tablet size  */
@@ -273,9 +276,11 @@ span.badge{
     from{
         width: 0%;
         left: -560px;
+        opacity: 0;
      
     }
     to{
+        opacity: 1;
         width: 100%;
         left: 0; 
     }
@@ -284,10 +289,12 @@ span.badge{
 @keyframes slideOut{
     to{
         width: 0%;
+        opacity: 0;
         left: -200px;
 
     }
     from{
+        opacity: 1;
         width: 100%;
         left: 0; 
     }
