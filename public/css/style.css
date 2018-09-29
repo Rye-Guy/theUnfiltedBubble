@@ -1,11 +1,5 @@
-#0f1e32
-#5886af
-#f4fafd
-#eac77d
-#b47b44
-
 html{
-    background-color: #f4fafd !important;
+    background-color: #f4f4fd !important;
 }
 nav{
     background-color: #5886af;
@@ -52,7 +46,10 @@ nav{
     transition: ease all 1s;  
 }
 
-
+.buttonRow{
+    margin-left: -130px;
+    margin-top: 25px;
+}
 
 
 /* .show{
@@ -241,7 +238,7 @@ span.badge{
     position: relative;
     width: 0%;
     left: -200px;
-    
+
 }
 
 #registerForm{

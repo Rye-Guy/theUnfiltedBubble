@@ -67,7 +67,7 @@ router.post('/', (req, res, next) =>{
                 //add the username while were at it. It might come useful later to have access to a given user name of logged in user.
                      req.session.usernameLogged = user.username;
                 //now we got what we needed to done. Send the user to the action!!! 
-                     return res.render('/home');
+                     return res.render('home');
                  }
              });
     //what about our other way of logging in. Not a registering user but someone returning to our website.
