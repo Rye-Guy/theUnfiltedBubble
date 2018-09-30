@@ -9,7 +9,7 @@ const LocalStorage = require('node-localstorage').LocalStorage;
 //creates a folder where our client search data is stored. 
 localStorage = new LocalStorage('./clientStoredSearch');
 
-//middleware ojbect used to store custom middleware functions. Only really used it to contain one but it can easily be modified now if I wanted to add more middleware. 
+//middleware object used to store custom middleware functions. Only really used it to contain one but it can easily be modified now if I wanted to add more middleware. 
 const middleware = {
     requiresLogin: (req, res, next) =>{
         //see if the session is created and if the userId has been added to our session oject. 
@@ -94,17 +94,14 @@ router.post('/', (req, res, next) =>{
     }
 });
 
-router.get('/home', middleware.requiresLogin, (req, res) =>{
-        return res.render('home');
-        
-});
-
+//get route for serving the saved articles HBS file
 router.get('/savedArticles', middleware.requiresLogin, (req, res)=>{
     return res.render('savedArticles');
 });
 
+//post route that handles user votes to the DB. 
 router.post('/userVotes/:id', middleware.requiresLogin, (req, res)=>{
-    console.log(req.body);
+    //finds the related article and updates the vote column to either plus one or minus one.
     database.SavedArticles.findByIdAndUpdate({'_id': req.body._id},{'votes': parseInt(req.body.votes)}).exec((err, doc)=>{
         if(err){
             res.send(err);
@@ -115,9 +112,9 @@ router.post('/userVotes/:id', middleware.requiresLogin, (req, res)=>{
 
 });
 
-
+//this route matches all the current saved articles with comments attached and populates all of the comments with the same Id as their parent container. 
 router.get('/getSavedComments/:id', function(req, res){ 
-    console.log(req.params);
+//go get all the comments with te same id from our request. 
     database.Comments.find({'articleId': req.params.id}).then(function (result){
         res.json(result);
     }).catch(function(err){
@@ -126,30 +123,30 @@ router.get('/getSavedComments/:id', function(req, res){
     });
     
 });
+
+//create a comment lets do this!!!
 Comment = database.Comments;
 router.post('/savedArticles/:id', middleware.requiresLogin, (req, res)=>{
+    //crate a new comment out of our request body save it to our comments database. Create the new comment post with all of our keys pieces of data.
     let newComment = new Comment(req.body);
     newComment.save(function(err, doc){
         if(err){
             res.send(err);
         }else{
-            database.SavedArticles.findOneAndUpdate({'_id': req.params.id}, {'comments': doc._id}).exec((err, doc)=>{
-                if(err){
-                    res.send(err);
-                }else{
-                    console.log(doc);
-                    res.send(doc);
-                }
-            })
+            console.log(doc);
+            res.send(doc);
         }
     })
 });
 
+//route used just for getting the current sign in users json data to every page. Our getUserName.js file in publics utilizes this route. 
 router.get('/getUser', middleware.requiresLogin, (req, res) =>{
     res.json(req.session.usernameLogged);
 });
 
+//get route that gets our scapped data with all of the current articles from our parent database
 router.get('/getArticles', (req, res) =>{
+//simple here just find everything and serve it as json data 
     database.Articles.find({}).then((dbArticles) =>{
         res.json(dbArticles);
         console.log('articles found!');
@@ -158,20 +155,13 @@ router.get('/getArticles', (req, res) =>{
     });
 });
 
-router.get("/getArticles/:id", (req, res) =>{
-    database.Articles.findOne({"_id": req.params.id}).populate("savedArticles").exec((err, doc) =>{
-        if(err){
-            res.send(err);
-        }else{
-            res.json(doc);
-        }    
-    });
-});
-
+//create a variable to store new articles that users save to the savedArticles database. 
 const SavedArticles = database.SavedArticles;
+//post route that takes find the article Id of whichever saved article button is hit. 
 router.post('/getArticles/:id', (req, res) =>{
+    //create a new object from our request body with the saved article JSON data which is bascially the same as the articles but with a couple more pieces of information tied to them. 
     let newArticle = new SavedArticles(req.body);
-    console.log(req.body);
+    //new article created in our Saved articles database
     SavedArticles.create(newArticle, (err, savedArticle) =>{
         if(err){
             res.send(err);
@@ -183,7 +173,9 @@ router.post('/getArticles/:id', (req, res) =>{
     });
 });
 
+//get route for the saved articles very similar to our home page get route expect now we are grabbing articles and sorting them based on their vote value in descending order. 
 router.get('/getSavedArticles', middleware.requiresLogin, (req, res, next) =>{
+    //our sort that does the magic
     database.SavedArticles.find({}).sort({'votes': -1}).then((savedArticles) =>{
         res.json(savedArticles);
     }).catch((err) =>{
@@ -191,24 +183,26 @@ router.get('/getSavedArticles', middleware.requiresLogin, (req, res, next) =>{
     })
 });
 
+//get route for our search. it sends the related user search data that was generated from their post. This takes the stringified json data and parses it then sends that back to the user. localstorage is used on the backend to keep track of every users searches. Files are overwritten for every unique user search. 
 router.get('/search', middleware.requiresLogin, (req, res, next)=>{
     res.json(JSON.parse(localStorage.getItem('searchData'+req.session.usernameLogged)));
 }); 
-
+//post route that handles our user inputted search. grabs the req.body.searchInput and makes our search system function and creates client search data. 
 router.post('/search', middleware.requiresLogin, (req, res, next)=>{
     if(req.body.searchInput){
+//finds the related text in the databases and sends it back.
     database.Articles.find({$text: {$search: req.body.searchInput}}).then((result)=>{
+//use our localStorage npm package to take control of localstorage on our node server. 
+//creates unique file names for every user who actually preforms searches on the site. 
         localStorage.setItem('searchData'+req.session.usernameLogged, JSON.stringify(result));
-        let currentSearchResults = localStorage.getItem('searchData'+req.session.usernameLogged);
-        console.log(currentSearchResults);
+//render the searchResults hbs file to display and build from the newly created file with the stringified data.
         res.render('searchResults');
     }).catch(function(err){
         res.json(err);
     });
     }
 });
-
-
+//whenever someone hits the logout page this will delete the session. This makes it so the user has to go back to the index route and login in again. This isnt a essential component but adds a small layer of coolness to the project :D
 router.get('/logout', middleware.requiresLogin, (req, res, next) =>{
     req.session.destroy((err) =>{
         if(err){
@@ -218,7 +212,7 @@ router.get('/logout', middleware.requiresLogin, (req, res, next) =>{
         }
     });
 });
-
+//basically our failsafe that we send when the middleware catches something. A simple generic error page that does not address the current the issue just all possibilities considered. 
 router.get('/error', (req, res) =>{
     res.render('error');
 });
