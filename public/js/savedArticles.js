@@ -35,10 +35,6 @@ document.addEventListener('DOMContentLoaded', function () {
             sharedUsernameDisplay.innerText = 'Shared by: ' + savedArticleJSON[i].savedUser;
             sharedUsernameDisplay.id = 'usernameDisplay';
             let commentBtn = document.createElement('a');
-            
-
-        
-
             commentBtn.setAttribute('target', 'commentButton');
             commentBtn.className = 'btn-floating btn-large waves-effect waves-light blue'
             commentBtn.href = '#modal1'

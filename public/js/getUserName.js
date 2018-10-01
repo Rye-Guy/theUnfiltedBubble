@@ -1,13 +1,12 @@
+//little thing I like on the site is a greeting message with username displayed in the nav bar. Tacky but oh god do I ever love it.
 const usernameContainer = document.getElementById('usernameNavDisplay');
-
+//get the user name from our relevant route. This files is saved to our main layout so we will have access to this all across our application. 
 fetch('/getUser').then(function (response) {
     return response.json();
 }).then(function (username) {
-    console.log(username);
+    //set the text in our container to the username. 
     usernameContainer.innerText = username
-    let now = new Date();
-    let time = now.getTime();
-    time += 3600 * 100000;
+    //crate a cookie with the username is stored. Used to attach various actions to users across our application. IE. comments and shares. 
     docCookies.setItem('username', username);
 });
 //Cookie Framework from MDN 
